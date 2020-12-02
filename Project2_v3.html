@@ -1,0 +1,897 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Visualization Project</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Raleway">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+<script src="https://d3js.org/d3.v3.min.js"></script>
+<script src="https://d3js.org/queue.v1.min.js"></script>
+  <script type="text/javascript" src="https://d3js.org/topojson.v1.min.js"></script>
+<style>
+
+
+path {
+  stroke:white;
+  stroke-width: 1px;
+  fill:black;
+}
+
+div.tooltip {
+  position: absolute;
+  display: block;
+  z-index: 3;
+  left: 75px;
+  text-align: center;
+  height: 30px;
+  padding: 5px;
+  font-size: 16px;
+  background:lightblue;
+  border: 1px solid #989898;
+  pointer-events: none;
+}
+
+
+body {
+  font: 10px sans-serif;
+}
+
+.axis path,
+.axis line {
+  fill: none;
+  stroke: #000;
+  shape-rendering: crispEdges;
+}
+
+axis path {
+  display: none;
+}
+    	/* text {
+			font-family: Arial;
+			font-size: 15px;
+		}
+		.axis path, .axis line {
+			fill: none;
+			stroke: black;
+			shape-rendering: crispEdges;
+		}
+		.tick text {
+			fill: gray;
+			font-size: 11px;
+		}
+
+		rect {
+			stroke: white;
+		}
+
+} */
+
+
+/* .svg {
+  position: absolute;
+  animation: panZoom 10s linear 1;
+} */
+
+
+/*
+.legend rect {
+  fill: white;
+  fill-opacity: .85;
+  stroke: white;
+}
+.legend text {
+  font-size: 12px;
+}
+path {
+    stroke-width: 1;
+    fill: none;
+    stroke-linejoin: round;
+    stroke-linecap: round;
+}
+circle {
+  stroke-width: 1;
+}
+.axis path,
+.axis line {
+  fill: none;
+  stroke: grey;
+  stroke-width: 1;
+  shape-rendering: crispEdges;
+}
+.legend, .label, .hover-text{
+    font-size: x-small;
+    background-color: white;
+} */
+</style>
+</head>
+
+<body>
+
+
+
+<!-- Navbar (sit on top) -->
+<div class="w3-top">
+  <div class="w3-bar w3-white w3-card" id="myNavbar">
+    <a href="Project2.html" class="w3-bar-item w3-button w3-wide"><b>Final Project</b></a>
+    <!-- Right-sided navbar links -->
+    <div class="w3-right w3-hide-small">
+      <a href="project2_index.html" class="w3-bar-item w3-button"><b>About</b></a>
+	  <a href="project2_V3.html" class="w3-bar-item w3-button"><b>Visualization</b></a>
+      <a href="project2_documentation.html" class="w3-bar-item w3-button"></i><b>Document</b></a>
+	  <a href="project2_video.html" class="w3-bar-item w3-button"><b></i>Presentation</b></a>
+    </div>
+	    <a href="javascript:void(0)" class="w3-bar-item w3-button w3-right w3-hide-large w3-hide-medium" onclick="w3_open()">
+      <i class="fa fa-bars"></i>
+    </a>
+  </div>
+    <a href="javascript:void(0)" class="w3-bar-item w3-button w3-right w3-hide-large w3-hide-medium" onclick="w3_open()">
+      <i class="fa fa-bars"></i>
+    </a>
+</div>
+
+
+
+
+<div id="JailDeaths_By_Cat" class="chart">
+   <div class="title"></div>
+</div>
+
+
+<script>
+
+var width_map = 900, height_map = 600;
+var color_domain = [5, 10, 15, 20, 25, 30];
+var ext_color_domain = [0, 5, 10, 15, 20, 25, 30];
+var legend_labels = ["0-5", "5-10", "10-15", "15-20", "20-25", "25-30","30+"];
+
+var color_map = d3.scale.threshold()
+                    .domain(color_domain)
+                    .range(['#ffffd4','#fee391','#fec44f','#fe9929','#ec7014','#cc4c02','#8c2d04']);
+
+var tooltip_map = d3.select("body").append("div")
+            .attr("class", "tooltip")
+             .style("opacity", 0);
+
+ var svg_map = d3.select("body").append("svg")
+               .attr("width", width_map)
+               .attr("height", height_map)
+               .attr("transform","translate(-70,40)")
+
+ var legend_map = svg_map.selectAll("g.legend")
+                       .data(ext_color_domain)
+                       .enter().append("g")
+                       .attr("class","legend_map");
+
+ legend_map.append("rect")
+           .attr("x", function(d,i){return (200 + (i*70));})
+           .attr("y", 550)
+           .attr("width", 70)
+           .attr("height", 20)
+           .attr("fill", function(d,i){return color_map(d);});
+
+ legend_map.append("text")
+           .data(legend_labels)
+           .attr("x", function(d,i){return (200 + (i*70));})
+           .attr("y", 590)
+           .attr("class","legend_map_label")
+           .text(function(d,i){return legend_labels[i];});
+
+ legend_map.append("text")
+           .attr("x", 200)
+           .attr("y", 530)
+           .attr("class","legend_map_title")
+           .text("Number of Deaths")
+           .style("font-family", "sans-serif");
+
+ var deaths_data = [];
+
+ var bind_id_deaths = {};
+ var bind_id_name = {};
+ var bind_id_percent = {};
+ var bind_id_adp = {};
+
+ //function for initial preprocessing of data
+ function deaths_total(data){
+
+   //Data Preprocessing for Map
+   data.forEach(function(d){
+         var total_deaths = parseInt(d.d2008)+ parseInt(d.d2009) + parseInt(d.d2010) + parseInt(d.d2011)
+                         + parseInt(d.d2012) + parseInt(d.d2013)+parseInt(d.d2014)+ parseInt(d.d2015)
+                         + parseInt(d.d2016) + parseInt(d.d2017) + parseInt(d.d2018) + parseInt(d.d2019);
+         //console.log(total_deaths);
+
+         var avg_year = parseInt(d.d2008)/parseInt(d.adp2008)+ parseInt(d.d2009)/parseInt(d.adp2009)
+                   + parseInt(d.d2010)/parseInt(d.adp2010) + parseInt(d.d2011)/parseInt(d.adp2011);
+                         // + parseInt(d.d2012)/parseInt(d.adp2012) + parseInt(d.d2013)/parseInt(d.adp2013)
+                         // + parseInt(d.d2014)/parseInt(d.adp2014)+ parseInt(d.d2015)/parseInt(d.adp2015)
+                         // + parseInt(d.d2016)/parseInt(d.adp2016) + parseInt(d.d2017)/parseInt(d.adp2017)
+                         //  + parseInt(d.d2018)/parseInt(d.adp2018) + parseInt(d.d2019)/parseInt(d.adp2019);
+
+         var total_adp = parseFloat(d.adp2008)+ parseFloat(d.adp2009) + parseFloat(d.adp2010) + parseFloat(d.adp2011)
+                         + parseFloat(d.adp2012) + parseFloat(d.adp2013)+parseFloat(d.adp2014)+ parseFloat(d.adp2015)
+                         + parseFloat(d.adp2016) + parseFloat(d.adp2017) + parseFloat(d.adp2018);
+
+         var avg_adp = (total_adp/11);
+         var percentage_deaths = (total_deaths/avg_adp)*100;
+         //console.log(percentage_deaths);
+
+         bind_id_percent[parseInt(d.fips)] = total_deaths;
+         bind_id_name[parseInt(d.fips)] = d.county;
+         //bind_id_deaths[parseInt(d.fips)] = total_deaths;
+         bind_id_adp[parseInt(d.fips)] = Math.round(avg_adp);
+       });
+
+ };
+
+ function deaths_by_year(data, year){
+
+    data.forEach(function(d){
+
+      //year = '2008';
+      colname = 'd'+year;
+      colname2 = 'adp'+year;
+
+      percentage_deaths = ((d[colname])/(d[colname2]))*100;
+      bind_id_percent[parseInt(d.fips)] = d[colname];
+      bind_id_name[parseInt(d.fips)] = d.county;
+      bind_id_deaths[parseInt(d.fips)] = d[colname];
+      bind_id_adp[parseInt(d.fips)] = Math.round(d[colname2]);
+
+      //console.log(d[colname]);
+
+
+    });
+
+ };
+
+ //reading csv file
+ d3.csv("modified_jails_data.csv")
+       .get(function(error, data_csv){
+           deaths_data = data_csv;
+
+           deaths_total(deaths_data);
+
+          // deaths_by_year(deaths_data,'2010');
+
+          });
+
+          //console.log(deaths_data.length);
+
+
+
+   d3.json("us.json")
+     .get(function(error, data_us){
+
+       svg_map.append("g")
+              .attr("class", "county")
+              .selectAll("path")
+              .data(topojson.feature(data_us, data_us.objects.counties).features)
+              .enter().append("path")
+              .attr("d", d3.geo.path())
+              .style("opacity", 0.8)
+              .style("fill", function(d){
+                 return color_map (bind_id_percent[d.id]);
+               })
+               .on("mouseover", function(d) {
+                      //var sel = d3.select(this);
+                 d3.select(this)
+                     .transition()
+                     .duration(300)
+                     .style({'opacity': 1,
+                             'stroke': 'black',
+                             'stroke-width': 1.5});
+
+                     tooltip_map.transition().duration(300)
+                             .style("opacity", 1);
+
+                     tooltip_map.html(d)
+                     .style("left", (d3.event.pageX) + "px")
+                     .style("top", (d3.event.pageY) + (-30)+"px")
+                     .style("opacity","1")
+                     .text(bind_id_name[d.id] + " : " + bind_id_percent[d.id])
+                     //.text(bind_id_name[d.id] + " : " + Math.round((bind_id_percent[d.id] + Number.EPSILON) * 100) / 100)
+               })
+               .on("mouseout", function() {
+                    var sel = d3.select(this);
+                   d3.select(this)
+                   .transition().duration(300)
+                   .style({'opacity': 0.8, 'stroke': 'white', 'stroke-width': 1});
+                   tooltip_map.transition().duration(300)
+                   .style("opacity", 0);
+               });
+
+     });
+
+     // Draw a line chart
+     var width = 450;
+     var height = 200;
+
+     var svg = d3.select("body").append("svg")
+                                         .attr("width", "600")
+                                         .attr("height", "300").attr("transform","translate(-70, -250)");
+
+    var g = svg.append("g")
+                .attr("transform", "translate(50,50)");
+
+    var margin = { top: 50, right: 0, bottom: 20, left: 0 };
+     // var svg = d3.select("svg"),//"#JailDeaths_By_Cat").append("svg"),
+     //   margin = { top: 100, right: 80, bottom: 20, left: 950 },
+     //   width = +svg.attr('width') - margin.left - margin.right,
+     //   height = +svg.attr('height') - margin.top - margin.bottom,
+     //   g = svg.append('g').attr('transform', 'translate(' + margin.left + ',' + margin.top + ')');
+     // // Graph title
+     // g.append('text')
+     //   .attr('x', (width / 2))
+     //   .attr('y', 0 - (margin.top / 3))
+     //   .attr('text-anchor', 'middle')
+     //   .style('font-size', '16px')
+     //   .text('Jail Deaths by Category from 2008 to 2019');
+     // Function to convert a string into a time
+
+     // Set the X scale
+     var x = d3.scale.linear().range([0, 450]);
+     // Set the Y scale
+     var y = d3.scale.linear().range([200, 0]);
+     // Set the color scale
+     var color = d3.scale.category10();
+
+     var xAxis = d3.svg.axis()
+     .scale(x)
+     .orient("bottom")
+     .tickFormat(d3.format("d"));
+
+     var yAxis = d3.svg.axis()
+     .scale(y)
+     .orient("left");
+
+     function buildmultiLine(){
+
+     var line = d3.svg.line()
+     // .interpolate("basis")
+     .x(function(d) {
+       return x(d.Year);
+     })
+     .y(function(d) {
+       return y(+d.Tot_Deaths);
+     });
+
+       // load the data
+     d3.csv("Data/all_jails_aggregated.csv", function(error, data) {
+      //console.log(data);
+       // Select the important columns
+
+      var chartstats = d3.nest() // nest function allows to group the calculation per level of a factor
+         .key(function(d) { return d.Category;})
+         .entries(data);
+
+       color.domain(chartstats.map(function(d){ console.log(d.key); return '"'+d.key+'"'; }))
+
+
+       // Set the X domain
+
+       x.domain(d3.extent(data, function(d) {
+         return d.Year;}));
+       // Set the Y domain
+       y.domain([
+         d3.min(chartstats, function(c) {
+           return d3.min(c.values, function(v) {
+             return +v.Tot_Deaths;
+           });
+         }),
+         d3.max(chartstats, function(c) {
+           return d3.max(c.values, function(v) {
+             return +v.Tot_Deaths;
+           });
+         })
+       ]);
+       // Set the X axis
+       g.append("g")
+         .attr("class", "x axis")
+         .attr("transform", "translate(0," + height + ")")
+         .call(xAxis);
+       // Set the Y axis
+       g.append("g")
+         .attr("class", "y axis")
+         .call(yAxis)
+         .append("text")
+         .attr("transform", "rotate(0)")
+         .attr("y", 2)
+         .attr("dy", ".90em")
+         .style("text-anchor", "top")
+         .text("Number of deaths");
+
+       // Draw the lines
+       var linchart = g.selectAll(".linchart")
+         .data(chartstats)
+         .enter().append("g")
+         .attr("class", "linchart");
+
+       linchart.append("path")
+         .attr("class", "line")
+         .style("fill","none")
+         .attr("d", function(d) {
+           return line(d.values);
+         })
+         .style("stroke", function(d) {
+           return color(d.key);
+         });
+       // Add the circles
+       linchart.append("g").selectAll("circle")
+         .data(function(d){return d.values})
+         .enter()
+         .append("circle")
+         .attr("r", 1)
+         .attr("cx", function(dd){return x(dd.Year)})
+         .attr("cy", function(dd){return y(+dd.Tot_Deaths)})
+         .attr("fill", "none")
+         .attr("stroke", function(d){return color(d.Category)});
+       // Add label to the end of the line
+       linchart.append("text")
+         .attr("class", "label")
+         .datum(function (d) { //console.log(d); console.log(d.key);
+           return {
+             Category: d.key,
+             value: d.values[d.values.length - 1]
+           };
+         })
+         .attr("transform", function (d) {//console.log(d);
+           return "translate(" + x(d.value.Year) + "," + y(+d.value.Tot_Deaths) + ")";
+         })
+         .attr("x", 3)
+         .attr("dy", ".35em")
+         .text(function (d) {
+           return d.Category;
+       });
+
+     // Add the mouse line
+     var mouseG = g.append("g")
+       .attr("class", "mouse-over-effects");
+
+     mouseG.append("path")
+       .attr("class", "mouse-line")
+       .style("stroke", "black")
+       .style("stroke-width", "1px")
+       .style("opacity", "0");
+
+     var lines = document.getElementsByClassName('line');
+
+     console.log(chartstats);
+
+     var mousePerLine = mouseG.selectAll('.mouse-per-line')
+       .data(chartstats)
+       .enter()
+       .append("g")
+       .attr("class", "mouse-per-line");
+
+     mousePerLine.append("circle")
+       .attr("r", 2)
+       .style("stroke", function (d) { //console.log(d);
+         return color(d.Category);
+       })
+       .style("fill", "silver")
+       .style("stroke-width", "1px")
+       .style("opacity", "0");
+
+     mousePerLine.append("text")
+         .attr("class", "hover-text")
+         .attr("dy", "-1em")
+         .attr("transform", "translate(10,3)");
+
+     // Append a rect to catch mouse movements on canvas
+     mouseG.append('svg:rect')
+       .attr('width', width)
+       .attr('height', height)
+       .attr('fill', 'none')
+       .attr('pointer-events', 'all')
+       .on('mouseout', function () { // on mouse out hide line, circles and text
+         d3.select(".mouse-line")
+           .style("opacity", "0");
+         d3.selectAll(".mouse-per-line circle")
+           .style("opacity", "0");
+         d3.selectAll(".mouse-per-line text")
+           .style("opacity", "0");
+       })
+       .on('mouseover', function () { // on mouse in show line, circles and text
+         d3.select(".mouse-line")
+           .style("opacity", "1");
+         d3.selectAll(".mouse-per-line circle")
+           .style("opacity", "1");
+         d3.selectAll(".mouse-per-line text")
+           .style("opacity", "1");
+       })
+       .on('mousemove', function () { // mouse moving over canvas
+         var mouse = d3.mouse(this);
+
+         d3.selectAll(".mouse-per-line")
+           .attr("transform", function (d, i) { //console.log(d);
+
+             var xDate = x.invert(mouse[0]),
+               bisect = d3.bisector( function (d) { return d.Year; }).left;
+             idx = bisect(d.values, xDate);
+
+             d3.select(this).select('text')
+               .text(y.invert(y(d.values[idx].Tot_Deaths)).toFixed(2));
+
+             d3.select(".mouse-line")
+               .attr("d", function () {
+                 var data = "M" + x(d.values[idx].Year) + "," + height;
+                 data += " " + x(d.values[idx].Year) + "," + 0;
+                 return data;
+               });
+             return "translate(" + x(d.values[idx].Year) + "," + y(d.values[idx].Tot_Deaths) + ")";
+           });
+
+
+       });
+
+
+     });
+     }
+
+     buildmultiLine();
+
+
+     //Grouped bar chart
+
+          var margin_group = {top: 30, right: 30, bottom: 30, left: 50};
+              var width_group = 300;
+            var  height_group =150;
+
+              var tooltip_group = d3.select("body").append("div")
+                          .attr("class", "tooltip")
+                           .style("opacity", 0);
+
+
+              var x0_group = d3.scale.ordinal()
+                  .rangeRoundBands([0, width_group], .1);
+
+              var x1_group = d3.scale.ordinal();
+
+              var y_group = d3.scale.linear()
+                  .range([height_group, 0]);
+
+              var xAxis_group = d3.svg.axis()
+                  .scale(x0_group)
+                  .tickSize(0)
+                  .tickFormat(function(d){
+                     var mapper = {"NA":"N/A", "C":"Convicted","U":"Unconvicted"};
+                     return mapper[d];
+                  })
+                  .orient("bottom");
+
+              var yAxis_group = d3.svg.axis()
+                  .scale(y_group)
+                  .orient("left");
+
+              var color_group = d3.scale.ordinal()
+                  .range(['#2b83ba','#d7191c','#abdda4']);
+
+              var svg_group = d3.select('body').append("svg")
+                  .attr("width", 350 )
+                  .attr("height", 300)
+                  .attr("transform","translate(950,-100)");
+
+                  svg_group.append("g")
+                    .attr("transform", "translate(100, 0)");
+                  //.attr("transform", "translate(" + margin_group.left + "," + margin_group.top + ")");
+
+                  const result = {};
+                  var grouped_data = [];
+                  var max_map = [];
+
+                function group_year(data, year){
+                    //data preprocessing - yearwise
+                    data.forEach((item) => {
+                      const item_year_num = Number(item.year);
+                      custodyStatusMap.add(item.custody_status);
+                      if (result[item_year_num]) {
+                        if (result[item_year_num][item.custody_status]) {
+                          if (result[item_year_num][item.custody_status][item.gender]) {
+                            result[item_year_num][item.custody_status][item.gender] += 1;
+                          } else {
+                            result[item_year_num][item.custody_status][item.gender] = 1;
+                          }
+                        } else {
+                          result[item_year_num][item.custody_status] = { [item.gender]: 1 };
+                        }
+                      } else {
+                        result[item_year_num] = {
+                          [item.custody_status]: { [item.gender]: 1 },
+                        };
+                      }
+                    });
+
+
+                    console.log("Function group_year is executed" +result);
+                    format_data(result, year);
+
+                 };
+
+
+               //reading csv file
+               d3.csv("modified_deaths_data.csv")
+                   .get(function(error, data_csv){
+                       grouped_data = data_csv;
+
+                     var custody_status_values = grouped_data.map(function(d){return d.custody_status;});
+                     var custody_status = Array.from(new Set(custody_status_values));
+                     //console.log(custody_status_names);
+
+                     var gender = ["M", "F", "NA"];
+
+                     const result = {};
+                     const custodyStatusMap = new Set();
+                     var res_group = [];
+                   // //  data preprocessing - yearwise
+                         grouped_data.forEach((item) => {
+                           const item_year_num = Number(item.year);
+                           custodyStatusMap.add(item.custody_status);
+                           if (result[item_year_num]) {
+                             if (result[item_year_num][item.custody_status]) {
+                               if (result[item_year_num][item.custody_status][item.gender]) {
+                                 result[item_year_num][item.custody_status][item.gender] += 1;
+                               } else {
+                                 result[item_year_num][item.custody_status][item.gender] = 1;
+                               }
+                             } else {
+                               result[item_year_num][item.custody_status] = { [item.gender]: 1 };
+                             }
+                           } else {
+                             result[item_year_num] = {
+                               [item.custody_status]: { [item.gender]: 1 },
+                             };
+                           }
+                         });
+                   //
+                   //
+                 //   format_data(result, '2008');
+                       // var arr = new Map(Object.entries(result[2008]));
+                       // console.log(arr);
+                       // var test = [];
+                       // arr.forEach(function(val, key){
+                       //     var values = []
+                       //     // var male_count = val['M'];
+                       //     // var female_count = val['F'];
+                       //     // var na_count = val['NA'];
+                       //     values.push({gender:'M', count: val['M']});
+                       //     values.push({gender:'F', count: val['F']});
+                       //     values.push({gender:'NA', count:val['NA']});
+                       //
+                       //     test.push({custody_status: key, value:values});
+                       //   });
+
+
+                       // console.log(test);
+                       // max_map = test.map(function(o){
+                       //                 a = o.value;
+                       //
+                       //                 max = Math.max.apply(Math, a.map(function(o) { val = o.count
+                       //                             if (val == undefined){
+                       //                               val = 0;
+                       //                             };
+                       //                           return val;}))
+                       //                 return max;
+                       //         });
+
+
+
+
+                     //Consolidated data - totals based on gender and custody_status
+
+                     var data_group = {};
+
+                     grouped_data.forEach((item) => {
+                       const item_custody_status = item.custody_status;
+
+                       if (data_group[item_custody_status]) {
+                         if (data_group[item_custody_status][item.gender]) {
+                               data_group[item_custody_status][item.gender] += 1;
+                           } else {
+                             data_group[item_custody_status][item.gender] = 1;
+                           }
+                         } else {
+                           data_group[item_custody_status]= { [item.gender]: 1 };
+                         };
+                       });
+
+                       //console.log(data_group);
+
+                       const data_map_group = new Map(Object.entries(data_group));
+                       //console.log(data_map_group);
+
+                     //  res_group = format_data(data_map_group);
+
+                     data_map_group.forEach(function(val, key) {
+                         var values = []
+                         // var male_count = val['M'];
+                         // var female_count = val['F'];
+                         // var na_count = val['NA'];
+                         values.push({gender:'M', count: val['M']});
+                         values.push({gender:'F', count: val['F']});
+                         values.push({gender:'NA', count:val['NA']});
+
+                         res_group.push({custody_status: key, value:values});
+                     });
+
+                     max_map = res_group.map(function(o){
+                                     a = o.value;
+
+                                     max = Math.max.apply(Math, a.map(function(o) { val = o.count
+                                                 if (val == undefined){
+                                                   val = 0;
+                                                 };
+                                               return val;}))
+                                     return max;
+                             });
+
+                         //    update_bar(res_group);
+
+
+                       //console.log(res_group);
+
+
+                       x0_group.domain(['C','U','NA']);
+                       x1_group.domain(gender).rangeRoundBands([0, x0_group.rangeBand()]);
+                       y_group.domain([0,d3.max(max_map)]);
+
+                       var axisLabelsGroup = ['']
+
+                       svg_group.append("g")
+                           .attr("class", "x axis")
+                           .attr("transform", "translate(0," + height_group + ")")
+                           .call(xAxis_group)
+                           .append("text")
+                               .attr("x", 250)
+                                 .attr("dy", "2.5em")
+                               .style("text-anchor", "end")
+                               .style('font-weight','bold')
+                               .text("custody_status");
+
+                       svg_group.append("g")
+                           .attr("class", "y axis")
+                           .call(yAxis_group)
+                       .append("text")
+                           .attr("transform", "rotate(-90)")
+                           .attr("y", 6)
+                           .attr("dy", ".81em")
+                           .style("text-anchor", "end")
+                           .style('font-weight','bold')
+                           .text("Count");
+
+                       var slice = svg_group.selectAll(".slice")
+                           .data(res_group)
+                           .enter().append("g")
+                           .attr("class", "g")
+                           .attr("transform",function(d) { return "translate(" + x0_group(d.custody_status) + ",0)"; });
+
+                           // slice.selectAll("rect")
+                           //     .data(function(d) { return d.value; })
+                           // .enter().append("rect")
+                           //     .attr("width", x1_group.rangeBand())
+                           //     .attr("x", function(d) { return x1_group(d.gender); })
+                           //     .attr("y", function(d) { return y_group(d.count); })
+                           //     .attr("height", function(d) { return height_group - y_group(d.count); })
+                           //     .style("fill", function(d) { return color_group(d.gender) })
+                           //     .on("mouseover", function(d) {
+                           //         d3.select(this)
+                           //         .style("fill", d3.rgb(color(d.gender)).darker(2));
+                           //
+                           //           var gender_labels = {'M':'Male','F':'Female','NA':'NA'}
+                           //
+                           //         tooltip_group.html(d)
+                           //         .style("left", (d3.event.pageX)+"px")
+                           //         .style("top",(d3.event.pageY) +"px")
+                           //         .style("opacity",1)
+                           //         .text(gender_labels[d.gender] +":" +d.count)
+                           //
+                           //
+                           //     })
+                           //     .on("mouseout", function(d) {
+                           //         d3.select(this).style("fill", color_group(d.gender));
+                           //
+                           //         tooltip_group.style("opacity",0);
+                           //     });
+
+                               //Legend
+                               var legend_group = svg_group.selectAll(".legend")
+                                   .data(res_group[0].value.map(function(d) {
+                                       var gender_labels = {'M':'Male','F':'Female','NA':'NA'};
+                                       return gender_labels[d.gender]; }))
+                               .enter().append("g")
+                                   .attr("class", "legend")
+                                   .attr("transform", function(d,i) { return "translate(0," + i * 20 + ")"; });
+
+                               legend_group.append("rect")
+                                   .attr("x", width_group - 18)
+                                   .attr("width", 18)
+                                   .attr("height", 18)
+                                   .style("fill", function(d) { return color_group(d); });
+
+                               legend_group.append("text")
+                                   .attr("x", width_group - 24)
+                                   .attr("y", 9)
+                                   .attr("dy", ".35em")
+                                   .style("text-anchor", "end")
+                                   .text(function(d) {return d; });
+
+                                 svg_group.append("text")
+                                         .attr("class","title")
+                                         .attr("x", 20)
+                                         .attr("y",-20)
+                                         .style("font-size","14px")
+                                         .text("Deaths based on Custody Status and Gender");
+
+                                 slice.selectAll("rect")
+                                                   .data(function(d) { return d.value; })
+                                               .enter().append("rect")
+                                                   .attr("width", x1_group.rangeBand())
+                                                   .attr("x", function(d) { return x1_group(d.gender); })
+                                                   .attr("y", function(d) { return y_group(d.count); })
+                                                   .attr("height", function(d) { return height_group - y_group(d.count); })
+                                                   .style("fill", function(d) { return color_group(d.gender) })
+                                                   .on("mouseover", function(d) {
+                                                       d3.select(this)
+                                                       .style("fill", d3.rgb(color(d.gender)).darker(2));
+
+                                                         var gender_labels = {'M':'Male','F':'Female','NA':'NA'}
+
+                                                       tooltip_group.html(d)
+                                                       .style("left", (d3.event.pageX)+"px")
+                                                       .style("top",(d3.event.pageY) +"px")
+                                                       .style("opacity",1)
+                                                       .text(gender_labels[d.gender] +":" +d.count)
+
+
+                                                   })
+                                                   .on("mouseout", function(d) {
+                                                       d3.select(this).style("fill", color_group(d.gender));
+
+                                                       tooltip_group.style("opacity",0);
+                                                   });
+
+
+
+                                         function format_data(data, year){
+                                           var arr = new Map(Object.entries(data[year]));
+                                           res_group = [];
+                                         //  data = JSON.parse(data);
+                                           arr.forEach(function(val, key) {
+                                               var values = []
+                                               // var male_count = val['M'];
+                                               // var female_count = val['F'];
+                                               // var na_count = val['NA'];
+                                               values.push({gender:'M', count: val['M']});
+                                               values.push({gender:'F', count: val['F']});
+                                               values.push({gender:'NA', count:val['NA']});
+
+                                               res_group.push({custody_status: key, value:values});
+                                               console.log("Format data is also executed "+res_group);
+
+                                                 max_map = res_group.map(function(o){
+                                                               a = o.value;
+
+                                                               max = Math.max.apply(Math, a.map(function(o) { val = o.count
+                                                                           if (val == undefined){
+                                                                             val = 0;
+                                                                           };
+                                                                         return val;}))
+                                                               return max;
+                                                       });
+                                               console.log("Max value :" +max_map);
+                                               update_bar(res_group);
+                                               return res_group, max_map;
+
+                                         });
+                                       };
+
+
+
+               });
+
+
+
+</script>
+
+</body>
+</html>
