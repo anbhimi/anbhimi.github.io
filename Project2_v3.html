@@ -9,6 +9,8 @@
 <script src="https://d3js.org/d3.v3.min.js"></script>
 <script src="https://d3js.org/queue.v1.min.js"></script>
   <script type="text/javascript" src="https://d3js.org/topojson.v1.min.js"></script>
+
+</head>
 <style>
 
 
@@ -40,7 +42,7 @@ body {
 .axis path,
 .axis line {
   fill: none;
-  stroke: #000;
+  stroke: black;
   shape-rendering: crispEdges;
 }
 
@@ -104,7 +106,7 @@ circle {
     background-color: white;
 } */
 </style>
-</head>
+
 
 <body>
 
@@ -534,9 +536,9 @@ var tooltip_map = d3.select("body").append("div")
 
      //Grouped bar chart
 
-          var margin_group = {top: 30, right: 30, bottom: 30, left: 50};
-              var width_group = 300;
-            var  height_group =150;
+          var margin_group = {top: 30, right: 30, bottom: 30, left: 30};
+              var width_group = 450 - margin_group.left - margin_group.right;
+            var  height_group = 200 - margin_group.top - margin_group.bottom;
 
               var tooltip_group = d3.select("body").append("div")
                           .attr("class", "tooltip")
@@ -568,12 +570,11 @@ var tooltip_map = d3.select("body").append("div")
                   .range(['#2b83ba','#d7191c','#abdda4']);
 
               var svg_group = d3.select('body').append("svg")
-                  .attr("width", 350 )
-                  .attr("height", 300)
-                  .attr("transform","translate(950,-100)");
-
-                  svg_group.append("g")
-                    .attr("transform", "translate(100, 0)");
+                  .attr("width", width_group+margin_group.left+margin_group.right )
+                  .attr("height", height_group + margin_group.top + margin_group.bottom)
+                  .attr("transform","translate(950,-50)")
+                  .append("g")
+                    .attr("transform", "translate(40, 30)");
                   //.attr("transform", "translate(" + margin_group.left + "," + margin_group.top + ")");
 
                   const result = {};
@@ -751,8 +752,9 @@ var tooltip_map = d3.select("body").append("div")
                        svg_group.append("g")
                            .attr("class", "y axis")
                            .call(yAxis_group)
-                       .append("text")
-                           .attr("transform", "rotate(-90)")
+                           .append("text")
+                           //.attr("transform", "rotate(-90)")
+                           .attr("transform","translate(35,0)")
                            .attr("y", 6)
                            .attr("dy", ".81em")
                            .style("text-anchor", "end")
