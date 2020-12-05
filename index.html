@@ -60,6 +60,13 @@ body {
   shape-rendering: crispEdges;
 }
 
+.yaxis path,
+.yaxis line {
+  fill: none;
+  stroke: black;
+  shape-rendering: crispEdges;
+}
+
 axis path {
   display: none;
 }
@@ -291,36 +298,42 @@ var tooltip_map = d3.select("body").append("div")
                .attr("height", height_map)
                .attr("transform","translate(-160,10)");
 
+ var svg_map2 = d3.select("body").append("svg")
+              .attr("width", 600)
+              .attr("height", 200)
+              .attr("transform","translate(20,-200)");
+
 svg_map.append("text")
-        .attr("x", (width_map / 1.5))             
+        .attr("class","maptitle")
+        .attr("x", (width_map / 1.5))
         .attr("y", (height_map / 12))
-        .attr("text-anchor", "middle")  
-        .style("font-size", "16px") 
+        .attr("text-anchor", "middle")
+        .style("font-size", "16px")
         .text("County-wise jail deaths in USA");
 
 
- var legend_map = svg_map.selectAll("g.legend")
+ var legend_map = svg_map2.selectAll("g.legend")
                        .data(ext_color_domain)
                        .enter().append("g")
                        .attr("class","legend_map");
 
  legend_map.append("rect")
-           .attr("x", function(d,i){return (200 + (i*70));})
-           .attr("y", 550)
+           .attr("x", function(d,i){return (50 + (i*70));})
+           .attr("y", 50)
            .attr("width", 70)
            .attr("height", 20)
            .attr("fill", function(d,i){return color_map(d);});
 
  legend_map.append("text")
            .data(legend_labels)
-           .attr("x", function(d,i){return (200 + (i*70));})
-           .attr("y", 590)
+           .attr("x", function(d,i){return (50 + (i*70));})
+           .attr("y", 90)
            .attr("class","legend_map_label")
            .text(function(d,i){return legend_labels[i];});
 
  legend_map.append("text")
-           .attr("x", 200)
-           .attr("y", 530)
+           .attr("x", 50)
+           .attr("y", 30)
            .attr("class","legend_map_title")
            .text("Number of Deaths")
            .style("font-family", "sans-serif");
@@ -408,13 +421,14 @@ svg_map.append("text")
             .get(function(error, data_us){
 
               county_data = data_us;
-          var g_map = svg_map.append("g");
+        //  var g_map = svg_map.append("g");
 
-             g_map.attr("class", "county")
+             svg_map.append("g")
+             .attr("class", "county")
              .selectAll("path")
              .data(topojson.feature(data_us, data_us.objects.counties).features)
              .enter().append("path")
-             .attr("d", d3.geo.path().projection(d3.geo.albersUsa().scale(650)))
+             .attr("d", d3.geo.path().projection(d3.geo.albersUsa().scale(800)))
              .style("opacity", 0.8)
              .style("fill", function(d){
                return color_map (bind_id_percent[d.id]);
@@ -435,7 +449,8 @@ svg_map.append("text")
                     .style("left", (d3.event.pageX) + "px")
                     .style("top", (d3.event.pageY) + (-30)+"px")
                     .style("opacity","1")
-                    .text(bind_id_name[d.id] + " : " + bind_id_percent[d.id])
+                    .text(bind_id_name[d.id] + " : " + bind_id_percent[d.id]
+                            +", ADP: " +bind_id_adp[d.id]);
                     //.text(bind_id_name[d.id] + " : " + Math.round((bind_id_percent[d.id] + Number.EPSILON) * 100) / 100)
               })
               .on("mouseout", function() {
@@ -456,10 +471,10 @@ svg_map.append("text")
               .scaleExtent([1, 8])
               .on("zoom", zoomed);
 
-          g_map.call(zoom);
+          svg_map.call(zoom);
 
           function zoomed() {
-              g_map.attr("transform",
+              svg_map.attr("transform",
                   "translate(" + zoom.translate() + ")" +
                   "scale(" + zoom.scale() + ")"
               );
@@ -515,19 +530,41 @@ svg_map.append("text")
           function draw_map(){
 
 
-            // d3.json("us.json")
-            //   .get(function(error, data_us){
+            d3.json("us.json")
+              .get(function(error, data_us){
 
                 //svg_map.selectAll(".county").style("opacity",0).remove();
                 //  console.log(county_data);
 
-                 svg_map.selectAll(".county")
-                    .data(county_data)
-                    .enter().append("path")
-                   .attr("class","county")
-                  //   .data(topojson.feature(county_data, county_data.objects.counties).features)
-                  //  .enter().append("path")
-                    //.attr("d", d3.geo.path())
+                var color_domain = [1,2, 3, 4, 5,6];
+
+                var color_map = d3.scale.threshold()
+                                    .domain(color_domain)
+                                    .range(['#ffffd4','#fee391','#fec44f','#fe9929','#ec7014','#cc4c02','#8c2d04']);
+
+                var ext_color_domain = [0, 1, 2, 3, 4, 5, 6];
+                var legend_labels = ["0", "1", "2", "3", "4", "5","6+"];
+
+                legend_map.selectAll(".legend_map_label").remove();
+
+                legend_map.append("text")
+                          .data(legend_labels)
+                          .attr("x", function(d,i){return (50 + (i*70));})
+                          .attr("y", 90)
+                          .attr("class","legend_map_label")
+                          .text(function(d,i){return legend_labels[i];});
+
+
+                svg_map.selectAll("g > *").style("opacity",0).remove();
+
+                svg_map.selectAll("path.county").style("opacity",0).remove();
+
+
+                 svg_map.append("g").selectAll(".county")
+                     .attr("class","county")
+                    .data(topojson.feature(county_data, county_data.objects.counties).features)
+                   .enter().append("path")
+                    .attr("d", d3.geo.path().projection(d3.geo.albersUsa().scale(800)))
                     .style("opacity", 0.8)
                     .style("fill", function(d){
                       return color_map (bind_id_percent[d.id]);
@@ -548,7 +585,7 @@ svg_map.append("text")
                            .style("left", (d3.event.pageX) + "px")
                            .style("top", (d3.event.pageY) + (-30)+"px")
                            .style("opacity","1")
-                           .text(bind_id_name[d.id] + " : " + bind_id_percent[d.id])
+                           .text(bind_id_name[d.id] + " : " + bind_id_percent[d.id]  + ", ADP: " +bind_id_adp[d.id])
                            //.text(bind_id_name[d.id] + " : " + Math.round((bind_id_percent[d.id] + Number.EPSILON) * 100) / 100)
                      })
                      .on("mouseout", function() {
@@ -563,12 +600,12 @@ svg_map.append("text")
 
                 //     fill_color();
 
-              //});
+              });
 
 
    };
 
-   draw_map();
+  // draw_map();
 
 
 
@@ -582,10 +619,10 @@ svg_map.append("text")
                                         //  .attr("transform","translate(-70, -250)");
 
 svg.append("text")
-        .attr("x", (width / 1.5))             
+        .attr("x", (width / 1.5))
         .attr("y", (50))
-        .attr("text-anchor", "middle")  
-        .style("font-size", "12px") 
+        .attr("text-anchor", "middle")
+        .style("font-size", "12px")
         .text("Timeline graph of jail deaths based on causes of deaths per year");
 
     var g = svg.append("g")
@@ -804,6 +841,16 @@ svg.append("text")
              return "translate(" + x(d.values[idx].Year) + "," + y(d.values[idx].Tot_Deaths) + ")";
            });
 
+           svg_map.selectAll(".maptitle").remove();
+           svg_map.append("text")
+                   .attr("class","maptitle")
+                   .attr("x", (width_map / 1.5))
+                   .attr("y", (height_map / 12))
+                   .attr("text-anchor", "middle")
+                   .style("font-size", "16px")
+                   .text("County-wise jail deaths in USA - " +year);
+
+
               deaths_by_year(deaths_data, year);
               group_year( year);
 
@@ -849,7 +896,7 @@ svg.append("text")
                 //  .attr("class","y axis");
 
               var color_group = d3.scale.ordinal()
-                  .range(['#2b83ba','#d7191c','#abdda4']);
+                  .range(['#91bfdb','#fc8d59','#ffffbf']);
 
               var svg_group = d3.select('.item2bar').append("svg")
                   .attr("width", width_group+margin_group.left+margin_group.right )
@@ -1136,6 +1183,8 @@ svg.append("text")
                                                    .attr("y", function(d) { return y_group(d.count); })
                                                    .attr("height", function(d) { return height_group - y_group(d.count); })
                                                    .style("fill", function(d) { return color_group(d.gender) })
+                                                   .style("stroke-width","0.5px")
+                                                   .style("stroke","black")
                                                    .on("mouseover", function(d) {
                                                        d3.select(this)
                                                        .style("fill", d3.rgb(color(d.gender)).darker(2));
@@ -1206,6 +1255,8 @@ svg.append("text")
                                    .attr("y", function(d) { return y_group(d.count); })
                                    .attr("height", function(d) { return height_group - y_group(d.count); })
                                    .style("fill", function(d) { return color_group(d.gender) })
+                                   .style("stroke-width","0.5px")
+                                   .style("stroke","black")
                                    .on("mouseover", function(d) {
                                        d3.select(this)
                                        .style("fill", d3.rgb(color(d.gender)).darker(2));
@@ -1271,8 +1322,8 @@ var CSS_PIE_RACE = [
 
 /** Tooltip */
 // Div for tooltip for pie arcs
-var div = d3.select(".grid-container1").append("div")	
-  .attr("class", "tooltip1")				
+var div = d3.select(".grid-container1").append("div")
+  .attr("class", "tooltip1")
   .style("opacity", 0)
   .style("position", "absolute");
 
@@ -1281,7 +1332,7 @@ var finalModifiedDataAge = [], finalRaceArray = [];
 
 /** Function to build a pie chart */
 /*
-    tag: The id of the div for svg 
+    tag: The id of the div for svg
     data: The data of the pie chart
     legendTag: The id of the div to append the legend values
     filtr: filter based on bar chart click
@@ -1318,10 +1369,10 @@ function pieBuilder(tag, data, legendTag) {
     }
 
     chart.append("text")
-        .attr("x", (size / 1.9))             
+        .attr("x", (size / 1.9))
         .attr("y", (35))
-        .attr("text-anchor", "middle")  
-        .style("font-size", "14px") 
+        .attr("text-anchor", "middle")
+        .style("font-size", "14px")
         .text(to_text);
 
     var plotArea = chart.append('g').attr('transform', 'translate(' + half + ', ' + half + ')');
@@ -1339,7 +1390,7 @@ function pieBuilder(tag, data, legendTag) {
     var outerArc = d3.svg.arc()
     .innerRadius(labelOffset)
     .outerRadius(labelOffset);
-  
+
     var plotPath = plotArea.selectAll('path').data(arcs).enter().append('path');
 
     // Fill colors to pie arcs
@@ -1357,23 +1408,23 @@ function pieBuilder(tag, data, legendTag) {
     }).attr('stroke', 'white').attr('d', arc).on("mouseover", function(dat) {
         // Set tooltips location on hover
         var pageX = d3.event.pageX;
-        var pageY = d3.event.pageY;		
+        var pageY = d3.event.pageY;
         var head = 'Age Range'
         if(tag == '#pie21') {
             head = 'Race'
         }
-        div.transition()		
-            .duration(200)		
-            .style("opacity", .9);		
-        return div.html(head + ": " + dat.data.name + "<br/>Percent: "  + (dat.data.value / total * 100).toFixed(2) + "%")	
-            .style("left", (pageX) + "px")		
-            .style("top", (pageY - 28) + "px");	
-        })					
-      .on("mouseout", function(d) {		
+        div.transition()
+            .duration(200)
+            .style("opacity", .9);
+        return div.html(head + ": " + dat.data.name + "<br/>Percent: "  + (dat.data.value / total * 100).toFixed(2) + "%")
+            .style("left", (pageX) + "px")
+            .style("top", (pageY - 28) + "px");
+        })
+      .on("mouseout", function(d) {
           // Remove tooltip on mouse out
-          div.transition()		
-              .duration(500)		
-              .style("opacity", 0);	
+          div.transition()
+              .duration(500)
+              .style("opacity", 0);
       });
 
 // // Add the polylines between chart and labels:
@@ -1387,11 +1438,11 @@ function pieBuilder(tag, data, legendTag) {
 //     .attr("stroke-width", 1)
 //     .attr('points', function(d) {
 //     // Three positions to add the labels on the invisible-outer arc of the pie
-//       var posA = arc.centroid(d) 
-//       var posB = outerArc.centroid(d) 
-//       var posC = outerArc.centroid(d); 
+//       var posA = arc.centroid(d)
+//       var posB = outerArc.centroid(d)
+//       var posC = outerArc.centroid(d);
 //       var midangle = d.startAngle + (d.endAngle - d.startAngle) / 2;
-//       posC[0] = radius * 0.95 * (midangle < Math.PI ? 1 : -1); 
+//       posC[0] = radius * 0.95 * (midangle < Math.PI ? 1 : -1);
 //       return [posA, posB, posC];
 //     });
 
@@ -1430,7 +1481,7 @@ function pieBuilterData(filtr) {
       });
     }
 
-    // Plot by age group  
+    // Plot by age group
     var initialDataAge = {
         '0-20': 0,
         '21-40': 0,
