@@ -1535,7 +1535,7 @@ function pieBuilterData(filtr) {
 data.forEach(function(elem) {
     // Age Categorization
     if(elem.age == "NA") {
-        initialDataAge['unknown']++;
+        initialDataAge['N/A']++;
     } else if(elem.age > 0 && elem.age <= 20) {
         initialDataAge['0-20']++;
     } else if(elem.age > 20 && elem.age <= 40) {
