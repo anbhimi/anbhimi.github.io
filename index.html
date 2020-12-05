@@ -738,12 +738,13 @@ svg.append("text")
        g.append("g")
          .attr("class", "y axis")
          .call(yTicksAxis)   /// added by kavitha
-         .append("text")
+        /* .append("text")    / removed by kavitha
          .attr("transform", "rotate(0)")
-         .attr("y", 2)
+         .attr("y", 4)
          .attr("dy", ".90em")
          .style("text-anchor", "top")
-         .text("Number of deaths");
+         .text("Number of deaths")*/
+	     ;
 
        // Draw the lines
        var linchart = g.selectAll(".linchart")
