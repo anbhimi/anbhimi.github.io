@@ -1520,7 +1520,7 @@ function pieBuilterData(filtr) {
         '41-60': 0,
         '61-80': 0,
         '>80': 0,
-        'N/A': 0
+        'UNKNOWN': 0
     };
 
     var initialDataRace = {
@@ -1528,14 +1528,14 @@ function pieBuilterData(filtr) {
       'WHITE': 0,
       'HISPANIC': 0,
       'OTHERS': 0,
-      'N/A': 0
+      'UNKNOWN': 0
     }
 
 
 data.forEach(function(elem) {
     // Age Categorization
     if(elem.age == "NA") {
-        initialDataAge['N/A']++;
+        initialDataAge['UNKNOWN']++;
     } else if(elem.age > 0 && elem.age <= 20) {
         initialDataAge['0-20']++;
     } else if(elem.age > 20 && elem.age <= 40) {
@@ -1570,7 +1570,7 @@ data.forEach(function(elem) {
       } else if(elem.race == 'AI') {
         initialDataRace['OTHERS']++;
       } else if(elem.race == 'NA') {
-        initialDataRace['N/A']++;
+        initialDataRace['UNKNOWN']++;
       }
   });
 
