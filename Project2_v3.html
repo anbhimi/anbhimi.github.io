@@ -8,7 +8,7 @@
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 <script src="https://d3js.org/d3.v3.min.js"></script>
 <script src="https://d3js.org/queue.v1.min.js"></script>
-  <script type="text/javascript" src="https://d3js.org/topojson.v1.min.js"></script>
+<script type="text/javascript" src="https://d3js.org/topojson.v1.min.js"></script>
 
 </head>
 <style>
@@ -34,9 +34,23 @@ div.tooltip {
   pointer-events: none;
 }
 
+div.tooltip1 {
+  position: absolute;
+  display: block;
+  z-index: 3;
+  left: 75px;
+  text-align: center;
+  height: 47px;
+  padding: 5px;
+  font-size: 16px;
+  background:lightblue;
+  border: 1px solid #989898;
+  pointer-events: none;
+}
+
 
 body {
-  font: 10px sans-serif;
+  font: 10px arial;
 }
 
 .axis path,
@@ -105,6 +119,92 @@ circle {
     font-size: x-small;
     background-color: white;
 } */
+
+.grid-container {
+  display: grid;
+  grid-template-areas: 'myArea1 myArea2';
+  grid-template-columns: 40vw 60vw;
+  grid-template-rows: auto;
+  grid-gap: 5px;
+  padding: 5px;
+  text-align: center;
+}
+
+.item1 {
+  grid-area: myArea1;
+}
+
+.item2 {
+  grid-area: myArea2;
+}
+
+.item11 { grid-area: pie; }
+.item1label1 { grid-area: legend1; }
+.item21 { grid-area: pie2; }
+.item2label1 { grid-area: legend2; }
+
+.grid-container1 {
+  display: grid;
+  grid-template-areas:'pie legend1 pie2 legend2';
+  grid-template-columns: 255px 110px 255px 110px;
+  grid-template-rows: auto;
+  grid-gap: 5px;
+  padding: 5px;
+  text-align: center;
+}
+
+#pie11 {
+    margin: auto;
+    background-color: white;
+  }
+
+#pie21 {
+    width: 80%;
+    margin: auto;
+    background-color: white;
+}
+
+.label-text {
+    alignment-baseline: middle;
+    font-size: 12px;
+    font-family: arial,helvetica,"sans-serif";
+    fill: #393939;
+}
+.label-line {
+    stroke-width: 1;
+    /* stroke: #393939; */
+}
+.label-circle {
+    fill: #393939;
+}
+
+.rounder {
+    height: 10px;
+    width: 10px;
+    border-radius: 50%;
+    display: inline-block;
+}
+
+.boundBox {
+    border: 1px black solid;
+    padding: 10px;
+    width: 43%;
+    text-align: left;
+    margin-top: 90px;
+}
+
+#pie1label1 {
+  text-align: left;
+  border: 1px black solid;
+  padding:5px;
+}
+
+#pie2label1 {
+  border: 1px black solid;
+  text-align: left;
+  padding:5px;
+}
+
 </style>
 
 
@@ -115,7 +215,7 @@ circle {
 <!-- Navbar (sit on top) -->
 <div class="w3-top">
   <div class="w3-bar w3-white w3-card" id="myNavbar">
-    <a href="Project2.html" class="w3-bar-item w3-button w3-wide"><b>Final Project</b></a>
+    <a href="Project2.html" class="w3-bar-item w3-button w3-wide"><b>Visualization of jail deaths in the USA</b></a>
     <!-- Right-sided navbar links -->
     <div class="w3-right w3-hide-small">
       <a href="project2_index.html" class="w3-bar-item w3-button"><b>About</b></a>
@@ -139,10 +239,41 @@ circle {
    <div class="title"></div>
 </div>
 
+<div class="grid-container">
+  <div style="position: absolute; margin-top:100px;z-index: 1000;">
+    <button id="zoom-in">+</button>
+    <button id="zoom-out">-</button>
+  </div>
+  <div class="item1">
+
+  </div>
+  <div class="item2">
+    <div class="item2line">
+
+    </div>
+    <div class="grid-container1">
+      <div class="item11">
+          <div id="pie11"></div>
+      </div>
+      <div class="item1label1">
+          <div id="pie1label1"></div>
+      </div>
+      <div class="item21">
+          <div id="pie21"></div>
+      </div>
+      <div class="item2label1">
+          <div id="pie2label1"></div>
+      </div>
+  </div>
+  <div class="item2bar">
+
+  </div>
+  </div>
+</div>
 
 <script>
 
-var width_map = 900, height_map = 600;
+var width_map = 760, height_map = 600;
 var color_domain = [5,10, 15, 20, 25, 30];
 var ext_color_domain = [0, 5, 10, 15, 20, 25, 30];
 var legend_labels = ["0-5", "5-10", "10-15", "15-20", "20-25", "25-30","30+"];
@@ -155,10 +286,18 @@ var tooltip_map = d3.select("body").append("div")
             .attr("class", "tooltip")
              .style("opacity", 0);
 
- var svg_map = d3.select("body").append("svg")
+ var svg_map = d3.select(".item1").append("svg")
                .attr("width", width_map)
                .attr("height", height_map)
-               .attr("transform","translate(-70,40)")
+               .attr("transform","translate(-160,10)");
+
+svg_map.append("text")
+        .attr("x", (width_map / 1.5))             
+        .attr("y", (height_map / 12))
+        .attr("text-anchor", "middle")  
+        .style("font-size", "16px") 
+        .text("County-wise jail deaths in USA");
+
 
  var legend_map = svg_map.selectAll("g.legend")
                        .data(ext_color_domain)
@@ -263,18 +402,19 @@ var tooltip_map = d3.select("body").append("div")
 
           //console.log(deaths_data.length);
 
-var county_data = [];
+          var county_data = [];
 
           d3.json("us.json")
             .get(function(error, data_us){
 
               county_data = data_us;
-          svg_map.append("g")
-             .attr("class", "county")
+          var g_map = svg_map.append("g");
+
+             g_map.attr("class", "county")
              .selectAll("path")
              .data(topojson.feature(data_us, data_us.objects.counties).features)
              .enter().append("path")
-             .attr("d", d3.geo.path())
+             .attr("d", d3.geo.path().projection(d3.geo.albersUsa().scale(650)))
              .style("opacity", 0.8)
              .style("fill", function(d){
                return color_map (bind_id_percent[d.id]);
@@ -309,12 +449,68 @@ var county_data = [];
 
               // fill_color();
 
-           });
 
+           var zoom = d3.behavior.zoom()
+              .translate([0, 0])
+              .scale(1)
+              .scaleExtent([1, 8])
+              .on("zoom", zoomed);
+
+          g_map.call(zoom);
+
+          function zoomed() {
+              g_map.attr("transform",
+                  "translate(" + zoom.translate() + ")" +
+                  "scale(" + zoom.scale() + ")"
+              );
+          }
+
+          function interpolateZoom (translate, scale) {
+              var self = this;
+              return d3.transition().duration(270).tween("zoom", function () {
+                  var transIt = d3.interpolate(zoom.translate(), translate),
+                      scaleIt = d3.interpolate(zoom.scale(), scale);
+                  return function (t) {
+                      zoom
+                          .scale(scaleIt(t))
+                          .translate(transIt(t));
+                      zoomed();
+                  };
+              });
+          }
+
+          function zoomClick() {
+              var direction = 1,
+                  translate = zoom.translate(),
+                  translate0 = [],        factor = 0.2,
+                  l = [],
+                  extent = zoom.scaleExtent(),
+                  target_zoom = 1,
+                  center = [width / 2, height / 2],
+                  view = {x: translate[0], y: translate[1], k: zoom.scale()};
+
+              d3.event.preventDefault();
+              direction = (this.id === 'zoom-in') ? 1 : -1;
+              target_zoom = zoom.scale() * (1 + factor * direction);
+
+              if (target_zoom < extent[0] || target_zoom > extent[1]) { return false; }
+
+              translate0 = [(center[0] - view.x) / view.k, (center[1] - view.y) / view.k];
+              view.k = target_zoom;
+              l = [translate0[0] * view.k + view.x, translate0[1] * view.k + view.y];
+
+              view.x += center[0] - l[0];
+              view.y += center[1] - l[1];
+
+              interpolateZoom([view.x, view.y], view.k);
+          }
+
+          d3.selectAll('button').on('click', zoomClick);
            // function fill_color(){
            //    svg_map.data(county_data)
            //        );
            // };
+          });
 
           function draw_map(){
 
@@ -369,6 +565,7 @@ var county_data = [];
 
               //});
 
+
    };
 
    draw_map();
@@ -379,12 +576,20 @@ var county_data = [];
      var width = 450;
      var height = 200;
 
-     var svg = d3.select("body").append("svg")
+     var svg = d3.select(".item2line").append("svg")
                                          .attr("width", "600")
-                                         .attr("height", "300").attr("transform","translate(-70, -250)");
+                                         .attr("height", "300");
+                                        //  .attr("transform","translate(-70, -250)");
+
+svg.append("text")
+        .attr("x", (width / 1.5))             
+        .attr("y", (50))
+        .attr("text-anchor", "middle")  
+        .style("font-size", "12px") 
+        .text("Timeline graph of jail deaths based on causes of deaths per year");
 
     var g = svg.append("g")
-                .attr("transform", "translate(50,50)");
+                .attr("transform", "translate(50,70)");
 
     var margin = { top: 50, right: 0, bottom: 20, left: 0 };
      // var svg = d3.select("svg"),//"#JailDeaths_By_Cat").append("svg"),
@@ -429,7 +634,7 @@ var county_data = [];
      });
 
        // load the data
-     d3.csv("Data/all_jails_aggregated.csv", function(error, data) {
+     d3.csv("all_jails_aggregated.csv", function(error, data) {
       //console.log(data);
        // Select the important columns
 
@@ -572,7 +777,7 @@ var county_data = [];
          d3.selectAll(".mouse-per-line text")
            .style("opacity", "1");
        })
-       .on('mousemove', function () { // mouse moving over canvas
+       .on('click', function () { // click over canvas
          var mouse = d3.mouse(this);
          var year;
          d3.selectAll(".mouse-per-line")
@@ -583,6 +788,8 @@ var county_data = [];
              idx = bisect(d.values, xDate);
              year = d.values[idx].Year;
 
+            // Update pie
+            pieBuilterData({year: year});
 
 
              d3.select(this).select('text')
@@ -608,14 +815,13 @@ var county_data = [];
 
      buildmultiLine();
 
-
      //Grouped bar chart
 
-          var margin_group = {top: 30, right: 30, bottom: 30, left: 30};
+          var margin_group = {top: 30, right: 30, bottom: 30, left: 50};
               var width_group = 450 - margin_group.left - margin_group.right;
             var  height_group = 200 - margin_group.top - margin_group.bottom;
 
-              var tooltip_group = d3.select("body").append("div")
+              var tooltip_group = d3.select(".item2bar").append("div")
                           .attr("class", "tooltip")
                            .style("opacity", 0);
 
@@ -645,13 +851,11 @@ var county_data = [];
               var color_group = d3.scale.ordinal()
                   .range(['#2b83ba','#d7191c','#abdda4']);
 
-              var svg_group = d3.select('body').append("svg")
+              var svg_group = d3.select('.item2bar').append("svg")
                   .attr("width", width_group+margin_group.left+margin_group.right )
                   .attr("height", height_group + margin_group.top + margin_group.bottom)
-                  .attr("transform","translate(950,-50)")
                   .append("g")
-                    .attr("transform", "translate(40, 30)");
-                  //.attr("transform", "translate(" + margin_group.left + "," + margin_group.top + ")");
+                  .attr("transform", "translate(" + margin_group.left + "," + margin_group.top + ")");
 
                   const result = {};
                   var grouped_data = [];
@@ -850,8 +1054,9 @@ var county_data = [];
                            .call(yAxis_group)
                            .append("text")
                            .attr("transform", "rotate(-90)")
-                           //.attr("transform","translate(35,0)")
-                           .attr("y", 6)
+                           .attr("transform","translate(35,20)")
+                           .attr("y", -34)
+                           .attr("x", -30)
                            .attr("dy", ".81em")
                            .style("text-anchor", "end")
                            .style('font-weight','bold')
@@ -916,7 +1121,7 @@ var county_data = [];
                                  svg_group.append("text")
                                          .attr("class","title")
                                          .attr("x", 20)
-                                         .attr("y",-20)
+                                         .attr("y", -15)
                                          .style("font-size","14px")
                                          .text("Deaths based on Custody Status and Gender");
 
@@ -981,8 +1186,9 @@ var county_data = [];
                   .call(yAxis_group)
                   .append("text")
                   .attr("transform", "rotate(-90)")
-                  //.attr("transform","translate(35,0)")
-                  .attr("y", 6)
+                  .attr("transform","translate(35,0)")
+                  .attr("y", -20)
+                  .attr("x", -30)
                   .attr("dy", ".81em")
                   .style("text-anchor", "end")
                   .style('font-weight','bold')
@@ -1022,6 +1228,295 @@ var county_data = [];
                };
 
 
+
+// Array with CSS color names
+const CSS_COLOR_NAMES = [
+    "FireBrick",
+    "Blue",
+    "DarkMagenta",
+    "DarkOliveGreen",
+    "DarkOrange",
+    "DarkOrchid",
+    "DodgerBlue",
+    "Fuchsia",
+    "Black",
+    "BlanchedAlmond",
+    "DimGrey",
+    "DodgerBlue",
+    "FloralWhite",
+    "ForestGreen",
+    "Fuchsia",
+    "Khaki",
+    "Lavender",
+    "LavenderBlush",
+    "LawnGreen",
+    "LemonChiffon"];
+
+var CSS_PIE_AGE = [
+  "#ffffcc",
+  "#c7e9b4",
+  "#7fcdbb",
+  "#41b6c4",
+  "#2c7fb8",
+  "#253494"
+];
+
+var CSS_PIE_RACE = [
+  "#66c2a5",
+  "#fc8d62",
+  "#8da0cb",
+  "#e78ac3",
+  "#a6d854"
+];
+
+/** Tooltip */
+// Div for tooltip for pie arcs
+var div = d3.select(".grid-container1").append("div")	
+  .attr("class", "tooltip1")				
+  .style("opacity", 0)
+  .style("position", "absolute");
+
+// Global - Helps in bar chart with pie later
+var finalModifiedDataAge = [], finalRaceArray = [];
+
+/** Function to build a pie chart */
+/*
+    tag: The id of the div for svg 
+    data: The data of the pie chart
+    legendTag: The id of the div to append the legend values
+    filtr: filter based on bar chart click
+*/
+
+
+
+function pieBuilder(tag, data, legendTag) {
+
+    // Size of the pie has to be equal on width and length as it's a circle
+    var size = 200;
+    var pieBox = 180
+    var fourth = size / 4;
+    var half = size / 2;
+    var margin = 97;
+    // Offset to set the label on
+    var labelOffset = fourth * 1.4;
+
+    // Calculate total to be used to find the percentage later on
+    var total = data.reduce(function (prev, after) {
+        return prev + after.value;
+    }, 0);
+
+    var radius = Math.min(size ,size) / 2 - margin;
+
+    var container = d3.select(tag);
+
+    var chart = container.append('svg').style('width', size).attr('viewBox', '0 0 ' + pieBox + ' ' + pieBox);
+    var to_text = "";
+    if(tag == "#pie11") {
+      to_text = "Deaths by age";
+    } else {
+      to_text = "Deaths by ethnicity";
+    }
+
+    chart.append("text")
+        .attr("x", (size / 1.9))             
+        .attr("y", (35))
+        .attr("text-anchor", "middle")  
+        .style("font-size", "14px") 
+        .text(to_text);
+
+    var plotArea = chart.append('g').attr('transform', 'translate(' + half + ', ' + half + ')');
+
+    var pie = d3.layout.pie().sort(null).value(function (d) {
+        return d.value;
+    });
+
+    // Arcs for pie
+    var arcs = pie(data);
+
+    var arc = d3.svg.arc().innerRadius(0).outerRadius(fourth);
+
+    // Arc to sit the exterior labels
+    var outerArc = d3.svg.arc()
+    .innerRadius(labelOffset)
+    .outerRadius(labelOffset);
+  
+    var plotPath = plotArea.selectAll('path').data(arcs).enter().append('path');
+
+    // Fill colors to pie arcs
+    plotPath.style('fill', function (d, i) {
+        // Add color with label to legend
+        if(tag == '#pie11') {
+          document.getElementById(legendTag).insertAdjacentHTML('beforeend', '<div style="font-size:0.9em;"><span class="rounder" style="background-color:' + CSS_PIE_AGE[i] + '"></span> ' + d.data.name + ' (' + (d.data.value / total * 100).toFixed(2) + '%)' + '</div>');
+        // Set color of pie-piece
+          return CSS_PIE_AGE[i];
+        } else {
+          document.getElementById(legendTag).insertAdjacentHTML('beforeend', '<div style="font-size:0.9em;"><span class="rounder" style="background-color:' + CSS_PIE_RACE[i] + '"></span> ' + d.data.name + ' (' + (d.data.value / total * 100).toFixed(2) + '%)' + '</div>');
+        // Set color of pie-piece
+          return CSS_PIE_RACE[i];
+        }
+    }).attr('stroke', 'white').attr('d', arc).on("mouseover", function(dat) {
+        // Set tooltips location on hover
+        var pageX = d3.event.pageX;
+        var pageY = d3.event.pageY;		
+        var head = 'Age Range'
+        if(tag == '#pie21') {
+            head = 'Race'
+        }
+        div.transition()		
+            .duration(200)		
+            .style("opacity", .9);		
+        return div.html(head + ": " + dat.data.name + "<br/>Percent: "  + (dat.data.value / total * 100).toFixed(2) + "%")	
+            .style("left", (pageX) + "px")		
+            .style("top", (pageY - 28) + "px");	
+        })					
+      .on("mouseout", function(d) {		
+          // Remove tooltip on mouse out
+          div.transition()		
+              .duration(500)		
+              .style("opacity", 0);	
+      });
+
+// // Add the polylines between chart and labels:
+// plotArea
+//   .selectAll('allPolylines')
+//   .data(arcs)
+//   .enter()
+//   .append('polyline')
+//     .attr("stroke", "black")
+//     .style("fill", "none")
+//     .attr("stroke-width", 1)
+//     .attr('points', function(d) {
+//     // Three positions to add the labels on the invisible-outer arc of the pie
+//       var posA = arc.centroid(d) 
+//       var posB = outerArc.centroid(d) 
+//       var posC = outerArc.centroid(d); 
+//       var midangle = d.startAngle + (d.endAngle - d.startAngle) / 2;
+//       posC[0] = radius * 0.95 * (midangle < Math.PI ? 1 : -1); 
+//       return [posA, posB, posC];
+//     });
+
+// // Add the polylines between chart and labels:
+// plotArea
+//     .selectAll('allLabels')
+//     .data(arcs)
+//     .enter()
+//     .append('text')
+//     .text( function(d) { return d.data.name + ' ' + (d.data.value / total * 100).toFixed(2) + '%'; } )
+//     .attr('transform', function(d) {
+//         // Add text and transform
+//         var pos = outerArc.centroid(d);
+//         var midangle = d.startAngle + (d.endAngle - d.startAngle) / 2
+//         pos[0] = radius * 0.99 * (midangle < Math.PI ? 1 : -1);
+//         return 'translate(' + pos + ')';
+//     })
+//     .style('text-anchor', function(d) {
+//         var midangle = d.startAngle + (d.endAngle - d.startAngle) / 2
+//         return (midangle < Math.PI ? 'start' : 'end')
+//     }).style('font-size', '10px');
+
+}
+
+function pieBuilterData(filtr) {
+
+  d3.csv("modified_deaths_data.csv",function(data) {
+    if(filtr) {
+      // data = data.splice(0, filtr.count);
+
+      data = data.filter(function(obj) {
+        if(obj.year.split('.')[0] == filtr.year.trim() ) {
+          return true;
+        }
+        return false;
+      });
+    }
+
+    // Plot by age group  
+    var initialDataAge = {
+        '0-20': 0,
+        '21-40': 0,
+        '41-60': 0,
+        '61-80': 0,
+        '>80': 0,
+        'unknown': 0
+    };
+
+    var initialDataRace = {
+      'BLACK': 0,
+      'WHITE': 0,
+      'HISPANIC': 0,
+      'OTHERS': 0,
+      'UNKNOWN': 0
+    }
+
+
+data.forEach(function(elem) {
+    // Age Categorization
+    if(elem.age == "NA") {
+        initialDataAge['unknown']++;
+    } else if(elem.age > 0 && elem.age <= 20) {
+        initialDataAge['0-20']++;
+    } else if(elem.age > 20 && elem.age <= 40) {
+        initialDataAge['21-40']++;
+    } else if(elem.age > 40 && elem.age <= 60) {
+        initialDataAge['41-60']++;
+    } else if(elem.age > 60 && elem.age <= 80) {
+        initialDataAge['61-80']++;
+    } else if(elem.age > 80) {
+        initialDataAge['>80']++;
+    }
+
+    // Race Categorization - If race detail exists + 1 else initiate at 0
+    // if(initialDataRace[elem.race_detail] != undefined) {
+    //     initialDataRace[elem.race_detail] = initialDataRace[elem.race_detail] + 1;
+    // } else {
+    //     initialDataRace[elem.race_detail] = 1;
+    // }
+    //Race Category - Based on race data
+      if(elem.race == 'B') {
+        initialDataRace['BLACK']++;
+      } else if(elem.race == 'W') {
+        initialDataRace['WHITE']++;
+      } else if(elem.race == 'H') {
+        initialDataRace['HISPANIC']++;
+      } else if(elem.race == 'O') {
+        initialDataRace['OTHERS']++;
+      } else if(elem.race == 'A') {
+        initialDataRace['OTHERS']++;
+      } else if(elem.race == 'PI') {
+        initialDataRace['OTHERS']++;
+      } else if(elem.race == 'AI') {
+        initialDataRace['OTHERS']++;
+      } else if(elem.race == 'NA') {
+        initialDataRace['UNKNOWN']++;
+      }
+  });
+
+      // empty container before draw
+    d3.select("#pie11").html("");
+    d3.select("#pie1label1").html("");
+    d3.select("#pie21").html("");
+    d3.select("#pie2label1").html("");
+    finalModifiedDataAge=[];
+  // Data formatting for Age group data
+  Object.keys(initialDataAge).forEach(function(key) {
+      finalModifiedDataAge.push({name: key, value: initialDataAge[key]});
+  });
+
+  // Call the pie builder function to build the age group pie
+  pieBuilder("#pie11", finalModifiedDataAge, 'pie1label1');
+  finalRaceArray = [];
+  // Pie chart by Race detail
+  Object.keys(initialDataRace).forEach(function(key) {
+          finalRaceArray.push({name: key, value:initialDataRace[key]});
+  });
+
+  // Call the pie builder function to build the Race pie
+  pieBuilder("#pie21", finalRaceArray, 'pie2label1');
+  });
+
+}
+
+pieBuilterData();
 
 
 </script>
