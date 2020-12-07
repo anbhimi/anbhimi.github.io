@@ -243,7 +243,7 @@ circle {
 
 
 <div id="JailDeaths_By_Cat" class="chart">
-   <div class="title"></div>
+   <!--- <div class="title"></div> -->
 </div>
 
 <div class="grid-container">
@@ -646,8 +646,8 @@ svg.append("text")
      // Set the X scale
      var x = d3.scale.linear().range([0, 450]);
      // Set the Y scale
-     var y = d3.scale.linear().range([200, 0]);
-     var yTicks = d3.scale.linear().range([200, 0]);   // kavitha
+     var y = d3.scale.log().range([200, 0]);
+     // var yTicks = d3.scale.linear().range([200, 0]);   // kavitha
      // Set the color scale
      var color = d3.scale.category10();
 
@@ -658,14 +658,11 @@ svg.append("text")
 
      var yAxis = d3.svg.axis()
      .scale(y)
-     .orient("left");
-	
-     var yTicksAxis = d3.svg.axis()    /// kavitha
-     .scale(yTicks)
      .orient("left")
-     .ticks(10);
-
-     var logval = d3.scale.log().range([0,2]); 
+     .ticks(5)
+     .tickFormat(d3.format(".2"));
+	
+     //var logval = d3.scale.log().range([0,2]); 
 
      function buildmultiLine(){
 
@@ -675,7 +672,7 @@ svg.append("text")
        return x(d.Year);
      })
      .y(function(d) {
-       return y(logval(+d.Tot_Deaths));  /// kavitha
+       return y(+d.Tot_Deaths);  /// kavitha
      });
 
        // load the data
@@ -698,20 +695,18 @@ svg.append("text")
        y.domain([
          d3.min(chartstats, function(c) {
            return d3.min(c.values, function(v) {
-             //// return +v.Tot_Deaths;  // Kavitha
-             return logval(+v.Tot_Deaths);
+              return +v.Tot_Deaths;
            });
          }),
          d3.max(chartstats, function(c) {
            return d3.max(c.values, function(v) {
-             /// return +v.Tot_Deaths;    // kavitha
-             return logval(+v.Tot_Deaths);
+             return +v.Tot_Deaths;
            });
          })
        ]);
 	     
      //// for ticks, kavitha
-       yTicks.domain([
+      /* yTicks.domain([
          d3.min(chartstats, function(c) {
                   return d3.min(c.values, function(v) {
 	                //console.log(logval(+v.Tot_Deaths));
@@ -727,6 +722,7 @@ svg.append("text")
               });
               })
            ]);
+	   */
 	     
 	     
        // Set the X axis
@@ -737,7 +733,7 @@ svg.append("text")
        // Set the Y axis
        g.append("g")
          .attr("class", "y axis")
-         .call(yTicksAxis)   /// added by kavitha
+         .call(yAxis)   /// added by kavitha
         /* .append("text")    / removed by kavitha
          .attr("transform", "rotate(0)")
          .attr("y", 4)
@@ -768,7 +764,7 @@ svg.append("text")
          .append("circle")
          .attr("r", 1)
          .attr("cx", function(dd){return x(dd.Year)})
-         .attr("cy", function(dd){return y(logval(+dd.Tot_Deaths))})   // updated by kavitha
+         .attr("cy", function(dd){return y(+dd.Tot_Deaths)})   // updated by kavitha
          .attr("fill", "none")
          .attr("stroke", function(d){return color(d.Category)});
        // Add label to the end of the line
@@ -781,7 +777,7 @@ svg.append("text")
            };
          })
          .attr("transform", function (d) {//console.log(d);
-           return "translate(" + x(d.value.Year) + "," + y(logval(+d.value.Tot_Deaths)) + ")";   /// updated by kavitha
+           return "translate(" + x(d.value.Year) + "," + y(+d.value.Tot_Deaths) + ")";   /// updated by kavitha
          })
          .attr("x", 3)
          .attr("dy", ".35em")
@@ -870,7 +866,7 @@ svg.append("text")
                  data += " " + x(d.values[idx].Year) + "," + 0;
                  return data;
                });
-             return "translate(" + x(d.values[idx].Year) + "," + y(logval(d.values[idx].Tot_Deaths)) + ")";  //// updated by kavitha
+             return "translate(" + x(d.values[idx].Year) + "," + y(d.values[idx].Tot_Deaths) + ")";  //// updated by kavitha
            });
 
            svg_map.selectAll(".maptitle").remove();
