@@ -248,9 +248,13 @@ circle {
 </div>
 
 <div class="grid-container">
-  <div style="position: absolute; margin-top:100px;z-index: 1000;">
+  <div style="position: absolute; margin-top:40px;left:250px;z-index: 1000;" id="map_title_text">
+    <h6>County-wise jail deaths in USA</h6>
+  </div>
+  <div style="position: absolute; margin-top:45px;z-index: 1000;">
     <button id="zoom-in">+</button>
     <button id="zoom-out">-</button>
+    <button id="resetMap">Reset</button>
   </div>
   <div class="item1">
 
@@ -281,7 +285,7 @@ circle {
 
 <script>
 
-var width_map = 760, height_map = 600;
+var width_map = 760, height_map = 500;
 var color_domain = [5,10, 15, 20, 25, 30];
 var ext_color_domain = [0, 5, 10, 15, 20, 25, 30];
 var legend_labels = ["0-5", "5-10", "10-15", "15-20", "20-25", "25-30","30+"];
@@ -297,25 +301,19 @@ var tooltip_map = d3.select("body").append("div")
  var svg_map = d3.select(".item1").append("svg")
                .attr("width", width_map)
                .attr("height", height_map)
-               .attr("transform","translate(-160,10)");
+               .attr("transform","translate(-160,70)");
+
 
  var svg_map2 = d3.select("body").append("svg")
               .attr("width", 600)
               .attr("height", 200)
-              .attr("transform","translate(20,-200)");
-
-svg_map.append("text")
-        .attr("class","maptitle")
-        .attr("x", (width_map / 1.5))
-        .attr("y", (height_map / 12))
-        .attr("text-anchor", "middle")
-        .style("font-size", "16px")
-        .text("County-wise jail deaths in USA");
+              .attr("transform","translate(20,-170)");
 
 
  var legend_map = svg_map2.selectAll("g.legend")
                        .data(ext_color_domain)
                        .enter().append("g")
+                       .attr("transform","translate(-20,0)")
                        .attr("class","legend_map");
 
  legend_map.append("rect")
@@ -424,8 +422,10 @@ svg_map.append("text")
               county_data = data_us;
         //  var g_map = svg_map.append("g");
 
-             svg_map.append("g")
-             .attr("class", "county")
+          var g_map = svg_map.append("g");
+
+             
+             g_map.attr("class", "county")
              .selectAll("path")
              .data(topojson.feature(data_us, data_us.objects.counties).features)
              .enter().append("path")
@@ -469,13 +469,13 @@ svg_map.append("text")
            var zoom = d3.behavior.zoom()
               .translate([0, 0])
               .scale(1)
-              .scaleExtent([1, 8])
+              .scaleExtent([0, 8])
               .on("zoom", zoomed);
 
-          svg_map.call(zoom);
+          d3.select("g.county").call(zoom);
 
           function zoomed() {
-              svg_map.attr("transform",
+            d3.select("g.county").attr("transform",
                   "translate(" + zoom.translate() + ")" +
                   "scale(" + zoom.scale() + ")"
               );
@@ -483,7 +483,7 @@ svg_map.append("text")
 
           function interpolateZoom (translate, scale) {
               var self = this;
-              return d3.transition().duration(270).tween("zoom", function () {
+              return d3.transition().duration(0).tween("zoom", function () {
                   var transIt = d3.interpolate(zoom.translate(), translate),
                       scaleIt = d3.interpolate(zoom.scale(), scale);
                   return function (t) {
@@ -496,6 +496,12 @@ svg_map.append("text")
           }
 
           function zoomClick() {
+            if(this.id == 'resetMap') {
+              var translate1 = zoom.translate(), view1 = {x: translate1[0], y: translate1[1], k: zoom.scale(1)}
+              // interpolateZoom([[view1.x, view1.y], view1.k]);
+              d3.select("g.county").attr("transform","translate(" + zoom.translate([0,0]) + ")" +"scale(" + zoom.scale(1) + ")");
+
+            } else {
               var direction = 1,
                   translate = zoom.translate(),
                   translate0 = [],        factor = 0.2,
@@ -519,6 +525,8 @@ svg_map.append("text")
               view.y += center[1] - l[1];
 
               interpolateZoom([view.x, view.y], view.k);
+            }
+
           }
 
           d3.selectAll('button').on('click', zoomClick);
@@ -852,14 +860,18 @@ svg.append("text")
              return "translate(" + x(d.values[idx].Year) + "," + y(d.values[idx].Tot_Deaths) + ")";  //// updated by kavitha
            });
 
-           svg_map.selectAll(".maptitle").remove();
-           svg_map.append("text")
-                   .attr("class","maptitle")
-                   .attr("x", (width_map / 1.5))
-                   .attr("y", (height_map / 12))
-                   .attr("text-anchor", "middle")
-                   .style("font-size", "16px")
-                   .text("County-wise jail deaths in USA - " +year);
+           //svg_map.selectAll(".maptitle").remove();
+           //svg_map.append("text")
+            //       .attr("class","maptitle")
+            //       .attr("x", (width_map / 1.5))
+            //       .attr("y", (height_map / 12))
+            //       .attr("text-anchor", "middle")
+            //       .style("font-size", "16px")
+             //      .text("County-wise jail deaths in USA - " +year);
+
+          document.getElementById("map_title_text").innerHTML = "<h6>County-wise jail deaths in USA - " +year + "</h6>";
+          deaths_by_year(deaths_data, year);
+          group_year( year);
 
 
               deaths_by_year(deaths_data, year);
