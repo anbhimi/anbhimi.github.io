@@ -663,9 +663,7 @@ svg.append("text")
      .ticks(5)
      .tickFormat(d3.format(".2"));
 	
-     //var logval = d3.scale.log().range([0,2]); 
-
-     function buildmultiLine(){
+    function buildmultiLine(){
 
      var line = d3.svg.line()
      // .interpolate("basis")
@@ -685,7 +683,7 @@ svg.append("text")
          .key(function(d) { return d.Category;})
          .entries(data);
 
-       color.domain(chartstats.map(function(d){ console.log(d.key); return '"'+d.key+'"'; }))
+       color.domain(chartstats.map(function(d){  return '"'+d.key+'"'; }))
 
 
        // Set the X domain
@@ -706,25 +704,7 @@ svg.append("text")
          })
        ]);
 	     
-     //// for ticks, kavitha
-      /* yTicks.domain([
-         d3.min(chartstats, function(c) {
-                  return d3.min(c.values, function(v) {
-	                //console.log(logval(+v.Tot_Deaths));
-                        return +v.Tot_Deaths; //  this original code -- kavitha
-		//return logval(+v.Tot_Deaths);
-               });
-               }),
-       d3.max(chartstats, function(c) {
-             return d3.max(c.values, function(v) {
-	            //console.log(logval(+v.Tot_Deaths));
-              return +v.Tot_Deaths; //  this original code -- kavitha
-	         //return logval(+v.Tot_Deaths);
-              });
-              })
-           ]);
-	   */
-	     
+       
 	     
        // Set the X axis
        g.append("g")
@@ -757,7 +737,8 @@ svg.append("text")
          })
          .style("stroke", function(d) {
            return color(d.key);
-         });
+         })
+	 .style("stroke-width",2);
        // Add the circles
        linchart.append("g").selectAll("circle")
          .data(function(d){return d.values})
@@ -799,7 +780,7 @@ svg.append("text")
 
      var lines = document.getElementsByClassName('line');
 
-     console.log(chartstats);
+     //console.log(chartstats);
 
      var mousePerLine = mouseG.selectAll('.mouse-per-line')
        .data(chartstats)
