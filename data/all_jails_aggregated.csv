@@ -1,85 +1,73 @@
 "Year","Category","Tot_Deaths"
-"2008","Accident",11
 "2008","Drug Alcohol related",25
 "2008","Homicide",11
 "2008","Illness Natural",277
-"2008","Other",11
+"2008","Other",21
 "2008","Suicides",99
 "2008","Total Deaths",468
-"2009","Accident",7
 "2009","Drug Alcohol related",34
 "2009","Homicide",18
 "2009","Illness Natural",302
-"2009","Other",32
+"2009","Other",39
 "2009","Suicides",155
 "2009","Total Deaths",568
-"2010","Accident",12
 "2010","Drug Alcohol related",21
 "2010","Homicide",13
 "2010","Illness Natural",320
-"2010","Other",10
+"2010","Other",21
 "2010","Suicides",167
 "2010","Total Deaths",571
-"2011","Accident",11
 "2011","Drug Alcohol related",33
 "2011","Homicide",14
 "2011","Illness Natural",309
-"2011","Other",17
+"2011","Other",26
 "2011","Suicides",164
 "2011","Total Deaths",575
-"2012","Accident",9
 "2012","Drug Alcohol related",38
 "2012","Homicide",14
 "2012","Illness Natural",330
-"2012","Other",8
+"2012","Other",17
 "2012","Suicides",165
 "2012","Total Deaths",591
-"2013","Accident",23
 "2013","Drug Alcohol related",28
 "2013","Homicide",19
 "2013","Illness Natural",330
-"2013","Other",13
+"2013","Other",36
 "2013","Suicides",181
 "2013","Total Deaths",619
-"2014","Accident",21
 "2014","Drug Alcohol related",55
 "2014","Homicide",19
 "2014","Illness Natural",326
-"2014","Other",13
+"2014","Other",34
 "2014","Suicides",189
 "2014","Total Deaths",671
-"2015","Accident",16
 "2015","Drug Alcohol related",60
 "2015","Homicide",25
 "2015","Illness Natural",344
-"2015","Other",12
+"2015","Other",27
 "2015","Suicides",201
 "2015","Total Deaths",688
-"2016","Accident",15
 "2016","Drug Alcohol related",50
 "2016","Homicide",16
 "2016","Illness Natural",323
-"2016","Other",22
+"2016","Other",36
 "2016","Suicides",208
 "2016","Total Deaths",679
-"2017","Accident",8
 "2017","Drug Alcohol related",92
 "2017","Homicide",22
 "2017","Illness Natural",334
-"2017","Other",24
+"2017","Other",32
 "2017","Suicides",188
 "2017","Total Deaths",731
-"2018","Accident",12
 "2018","Drug Alcohol related",90
 "2018","Homicide",17
 "2018","Illness Natural",298
-"2018","Other",30
+"2018","Other",42
 "2018","Suicides",186
 "2018","Total Deaths",710
-"2019","Accident",8
 "2019","Drug Alcohol related",92
 "2019","Homicide",18
 "2019","Illness Natural",308
-"2019","Other",8
+"2019","Other",16
 "2019","Suicides",172
 "2019","Total Deaths",699
