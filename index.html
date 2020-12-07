@@ -634,7 +634,7 @@ svg.append("text")
         .attr("y", (50))
         .attr("text-anchor", "middle")
         .style("font-size", "15px")
-        .text("Timeline graph of jail deaths based on causes of deaths per year");
+        .text("Jail deaths based on causes of deaths per year");
 
     var g = svg.append("g")
                 .attr("transform", "translate(50,70)");
@@ -1196,7 +1196,7 @@ svg.append("text")
                                          .attr("x", 20)
                                          .attr("y", -15)
                                          .style("font-size","14px")
-                                         .text("Deaths based on Custody Status and Gender");
+                                         .text("Jail deaths based on Custody Status and Gender");
 
                                       //   update_bar();
 
@@ -1306,28 +1306,6 @@ svg.append("text")
 
 
 
-// Array with CSS color names
-const CSS_COLOR_NAMES = [
-    "FireBrick",
-    "Blue",
-    "DarkMagenta",
-    "DarkOliveGreen",
-    "DarkOrange",
-    "DarkOrchid",
-    "DodgerBlue",
-    "Fuchsia",
-    "Black",
-    "BlanchedAlmond",
-    "DimGrey",
-    "DodgerBlue",
-    "FloralWhite",
-    "ForestGreen",
-    "Fuchsia",
-    "Khaki",
-    "Lavender",
-    "LavenderBlush",
-    "LawnGreen",
-    "LemonChiffon"];
 
 var CSS_PIE_AGE = [
   "#ffffcc",
@@ -1353,7 +1331,7 @@ var div = d3.select(".grid-container1").append("div")
   .style("opacity", 0)
   .style("position", "absolute");
 
-// Global - Helps in bar chart with pie later
+// Global variables
 var finalModifiedDataAge = [], finalRaceArray = [];
 
 /** Function to build a pie chart */
@@ -1389,9 +1367,9 @@ function pieBuilder(tag, data, legendTag) {
     var chart = container.append('svg').style('width', size).attr('viewBox', '0 0 ' + pieBox + ' ' + pieBox);
     var to_text = "";
     if(tag == "#pie11") {
-      to_text = "Deaths by age";
+      to_text = "Jail deaths by age";
     } else {
-      to_text = "Deaths by ethnicity";
+      to_text = "Jail deaths by ethnicity";
     }
 
     chart.append("text")
