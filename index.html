@@ -222,13 +222,14 @@ circle {
 <!-- Navbar (sit on top) -->
 <div class="w3-top">
   <div class="w3-bar w3-white w3-card" id="myNavbar">
-    <a href="Project2.html" class="w3-bar-item w3-button w3-wide"><b>THE HIDDEN CRISIS IN AMERICA'S JAILS</b></a>
+    <a href="https://anbhimi.github.io/Index.html" class="w3-bar-item w3-button w3-wide"><b>THE HIDDEN CRISIS IN AMERICA'S JAILS</b></a>
     <!-- Right-sided navbar links -->
     <div class="w3-right w3-hide-small">
-      <a href="project2_index.html" class="w3-bar-item w3-button"><b>About</b></a>
-	  <a href="project2_V3.html" class="w3-bar-item w3-button"><b>Visualization</b></a>
-      <a href="project2_documentation.html" class="w3-bar-item w3-button"></i><b>Document</b></a>
-	  <a href="project2_video.html" class="w3-bar-item w3-button"><b></i>Presentation</b></a>
+      <a href="https://anbhimi.github.io/index.html" class="w3-bar-item w3-button"><b>Reset Visualization</b></a>
+      <a href="about.html" class="w3-bar-item w3-button"><b>About</b></a>
+      <a href="documentation.html" class="w3-bar-item w3-button"></i><b>Documentation</b></a>
+      <a href="video.html" class="w3-bar-item w3-button"><b></i>Presentation</b></a>
+
     </div>
 	    <a href="javascript:void(0)" class="w3-bar-item w3-button w3-right w3-hide-large w3-hide-medium" onclick="w3_open()">
       <i class="fa fa-bars"></i>
@@ -243,13 +244,17 @@ circle {
 
 
 <div id="JailDeaths_By_Cat" class="chart">
-   <div class="title"></div>
+   <!--- <div class="title"></div> -->
 </div>
 
 <div class="grid-container">
-  <div style="position: absolute; margin-top:100px;z-index: 1000;">
+  <div style="position: absolute; margin-top:40px;left:250px;z-index: 1000;" id="map_title_text">
+    <h5>County-wise jail deaths in USA</h5>
+  </div>
+  <div style="position: absolute; margin-top:45px;z-index: 1000;">
     <button id="zoom-in">+</button>
     <button id="zoom-out">-</button>
+    <button id="resetMap">RESET MAP</button>
   </div>
   <div class="item1">
 
@@ -280,7 +285,7 @@ circle {
 
 <script>
 
-var width_map = 760, height_map = 600;
+var width_map = 760, height_map = 500;
 var color_domain = [5,10, 15, 20, 25, 30];
 var ext_color_domain = [0, 5, 10, 15, 20, 25, 30];
 var legend_labels = ["0-5", "5-10", "10-15", "15-20", "20-25", "25-30","30+"];
@@ -296,25 +301,19 @@ var tooltip_map = d3.select("body").append("div")
  var svg_map = d3.select(".item1").append("svg")
                .attr("width", width_map)
                .attr("height", height_map)
-               .attr("transform","translate(-160,10)");
+               .attr("transform","translate(-160,70)");
+
 
  var svg_map2 = d3.select("body").append("svg")
               .attr("width", 600)
               .attr("height", 200)
-              .attr("transform","translate(20,-200)");
-
-svg_map.append("text")
-        .attr("class","maptitle")
-        .attr("x", (width_map / 1.5))
-        .attr("y", (height_map / 12))
-        .attr("text-anchor", "middle")
-        .style("font-size", "16px")
-        .text("County-wise jail deaths in USA");
+              .attr("transform","translate(20,-170)");
 
 
  var legend_map = svg_map2.selectAll("g.legend")
                        .data(ext_color_domain)
                        .enter().append("g")
+                       .attr("transform","translate(-20,0)")
                        .attr("class","legend_map");
 
  legend_map.append("rect")
@@ -333,7 +332,7 @@ svg_map.append("text")
 
  legend_map.append("text")
            .attr("x", 50)
-           .attr("y", 30)  
+           .attr("y", 30)
            .attr("class","legend_map_title")
            .text("Number of Deaths")
            .style("font-family", "sans-serif");
@@ -402,6 +401,8 @@ svg_map.append("text")
 
  };
 
+
+  var g_map = svg_map.append("g");
  //reading csv file
  d3.csv("modified_jails_data.csv")
        .get(function(error, data_csv){
@@ -423,8 +424,10 @@ svg_map.append("text")
               county_data = data_us;
         //  var g_map = svg_map.append("g");
 
-             svg_map.append("g")
-             .attr("class", "county")
+
+
+
+             g_map.attr("class", "county")
              .selectAll("path")
              .data(topojson.feature(data_us, data_us.objects.counties).features)
              .enter().append("path")
@@ -468,13 +471,13 @@ svg_map.append("text")
            var zoom = d3.behavior.zoom()
               .translate([0, 0])
               .scale(1)
-              .scaleExtent([1, 8])
+              .scaleExtent([0, 8])
               .on("zoom", zoomed);
 
-          svg_map.call(zoom);
+          d3.select("g.county").call(zoom);
 
           function zoomed() {
-              svg_map.attr("transform",
+            d3.select("g.county").attr("transform",
                   "translate(" + zoom.translate() + ")" +
                   "scale(" + zoom.scale() + ")"
               );
@@ -482,7 +485,7 @@ svg_map.append("text")
 
           function interpolateZoom (translate, scale) {
               var self = this;
-              return d3.transition().duration(270).tween("zoom", function () {
+              return d3.transition().duration(0).tween("zoom", function () {
                   var transIt = d3.interpolate(zoom.translate(), translate),
                       scaleIt = d3.interpolate(zoom.scale(), scale);
                   return function (t) {
@@ -495,6 +498,12 @@ svg_map.append("text")
           }
 
           function zoomClick() {
+            if(this.id == 'resetMap') {
+              var translate1 = zoom.translate(), view1 = {x: translate1[0], y: translate1[1], k: zoom.scale(1)}
+              // interpolateZoom([[view1.x, view1.y], view1.k]);
+              d3.select("g.county").attr("transform","translate(" + zoom.translate([0,0]) + ")" +"scale(" + zoom.scale(1) + ")");
+
+            } else {
               var direction = 1,
                   translate = zoom.translate(),
                   translate0 = [],        factor = 0.2,
@@ -518,6 +527,8 @@ svg_map.append("text")
               view.y += center[1] - l[1];
 
               interpolateZoom([view.x, view.y], view.k);
+            }
+
           }
 
           d3.selectAll('button').on('click', zoomClick);
@@ -555,12 +566,12 @@ svg_map.append("text")
                           .text(function(d,i){return legend_labels[i];});
 
 
-                svg_map.selectAll("g > *").style("opacity",0).remove();
+                g_map.selectAll("g > *").style("opacity",0).remove();
 
-                svg_map.selectAll("path.county").style("opacity",0).remove();
+                g_map.selectAll("path.county").style("opacity",0).remove();
 
 
-                 svg_map.append("g").selectAll(".county")
+                 g_map.append("g").selectAll(".county")
                      .attr("class","county")
                     .data(topojson.feature(county_data, county_data.objects.counties).features)
                    .enter().append("path")
@@ -622,7 +633,7 @@ svg.append("text")
         .attr("x", (width / 1.5))
         .attr("y", (50))
         .attr("text-anchor", "middle")
-        .style("font-size", "12px")
+        .style("font-size", "15px")
         .text("Timeline graph of jail deaths based on causes of deaths per year");
 
     var g = svg.append("g")
@@ -646,8 +657,8 @@ svg.append("text")
      // Set the X scale
      var x = d3.scale.linear().range([0, 450]);
      // Set the Y scale
-     var y = d3.scale.linear().range([200, 0]);
-     var yTicks = d3.scale.linear().range([200, 0]);   // kavitha
+     var y = d3.scale.log().range([200, 0]);
+     // var yTicks = d3.scale.linear().range([200, 0]);   // kavitha
      // Set the color scale
      var color = d3.scale.category10();
 
@@ -658,16 +669,12 @@ svg.append("text")
 
      var yAxis = d3.svg.axis()
      .scale(y)
-     .orient("left");
-	
-     var yTicksAxis = d3.svg.axis()    /// kavitha
-     .scale(yTicks)
      .orient("left")
-     .ticks(10);
+     .ticks(8, d3.format('.2'))
+     .tickSize(6, 0);
+     //.tickFormat(d3.format(".2"));
 
-     var logval = d3.scale.log().range([0,2]); 
-
-     function buildmultiLine(){
+    function buildmultiLine(){
 
      var line = d3.svg.line()
      // .interpolate("basis")
@@ -675,7 +682,7 @@ svg.append("text")
        return x(d.Year);
      })
      .y(function(d) {
-       return y(logval(+d.Tot_Deaths));  /// kavitha
+       return y(+d.Tot_Deaths);  /// kavitha
      });
 
        // load the data
@@ -687,7 +694,7 @@ svg.append("text")
          .key(function(d) { return d.Category;})
          .entries(data);
 
-       color.domain(chartstats.map(function(d){ console.log(d.key); return '"'+d.key+'"'; }))
+       color.domain(chartstats.map(function(d){  return '"'+d.key+'"'; }))
 
 
        // Set the X domain
@@ -698,37 +705,18 @@ svg.append("text")
        y.domain([
          d3.min(chartstats, function(c) {
            return d3.min(c.values, function(v) {
-             //// return +v.Tot_Deaths;  // Kavitha
-             return logval(+v.Tot_Deaths);
+              return +v.Tot_Deaths;
            });
          }),
          d3.max(chartstats, function(c) {
            return d3.max(c.values, function(v) {
-             /// return +v.Tot_Deaths;    // kavitha
-             return logval(+v.Tot_Deaths);
+             return +v.Tot_Deaths;
            });
          })
        ]);
-	     
-     //// for ticks, kavitha
-       yTicks.domain([
-         d3.min(chartstats, function(c) {
-                  return d3.min(c.values, function(v) {
-	                //console.log(logval(+v.Tot_Deaths));
-                        return +v.Tot_Deaths; //  this original code -- kavitha
-		//return logval(+v.Tot_Deaths);
-               });
-               }),
-       d3.max(chartstats, function(c) {
-             return d3.max(c.values, function(v) {
-	            //console.log(logval(+v.Tot_Deaths));
-              return +v.Tot_Deaths; //  this original code -- kavitha
-	         //return logval(+v.Tot_Deaths);
-              });
-              })
-           ]);
-	     
-	     
+
+
+
        // Set the X axis
        g.append("g")
          .attr("class", "x axis")
@@ -737,7 +725,7 @@ svg.append("text")
        // Set the Y axis
        g.append("g")
          .attr("class", "y axis")
-         .call(yTicksAxis)   /// added by kavitha
+         .call(yAxis)   /// added by kavitha
         /* .append("text")    / removed by kavitha
          .attr("transform", "rotate(0)")
          .attr("y", 4)
@@ -760,7 +748,8 @@ svg.append("text")
          })
          .style("stroke", function(d) {
            return color(d.key);
-         });
+         })
+	 .style("stroke-width",2);
        // Add the circles
        linchart.append("g").selectAll("circle")
          .data(function(d){return d.values})
@@ -768,7 +757,7 @@ svg.append("text")
          .append("circle")
          .attr("r", 1)
          .attr("cx", function(dd){return x(dd.Year)})
-         .attr("cy", function(dd){return y(logval(+dd.Tot_Deaths))})   // updated by kavitha
+         .attr("cy", function(dd){return y(+dd.Tot_Deaths)})   // updated by kavitha
          .attr("fill", "none")
          .attr("stroke", function(d){return color(d.Category)});
        // Add label to the end of the line
@@ -781,7 +770,7 @@ svg.append("text")
            };
          })
          .attr("transform", function (d) {//console.log(d);
-           return "translate(" + x(d.value.Year) + "," + y(logval(+d.value.Tot_Deaths)) + ")";   /// updated by kavitha
+           return "translate(" + x(d.value.Year) + "," + y(+d.value.Tot_Deaths) + ")";   /// updated by kavitha
          })
          .attr("x", 3)
          .attr("dy", ".35em")
@@ -802,7 +791,7 @@ svg.append("text")
 
      var lines = document.getElementsByClassName('line');
 
-     console.log(chartstats);
+     //console.log(chartstats);
 
      var mousePerLine = mouseG.selectAll('.mouse-per-line')
        .data(chartstats)
@@ -837,6 +826,7 @@ svg.append("text")
            .style("opacity", "0");
          d3.selectAll(".mouse-per-line text")
            .style("opacity", "0");
+
        })
        .on('mouseover', function () { // on mouse in show line, circles and text
          d3.select(".mouse-line")
@@ -846,7 +836,7 @@ svg.append("text")
          d3.selectAll(".mouse-per-line text")
            .style("opacity", "1");
        })
-       .on('click', function () { // click over canvas
+       .on('click', function () { // click over canvas  //removing click
          var mouse = d3.mouse(this);
          var year;
          d3.selectAll(".mouse-per-line")
@@ -870,17 +860,21 @@ svg.append("text")
                  data += " " + x(d.values[idx].Year) + "," + 0;
                  return data;
                });
-             return "translate(" + x(d.values[idx].Year) + "," + y(logval(d.values[idx].Tot_Deaths)) + ")";  //// updated by kavitha
+             return "translate(" + x(d.values[idx].Year) + "," + y(d.values[idx].Tot_Deaths) + ")";  //// updated by kavitha
            });
 
-           svg_map.selectAll(".maptitle").remove();
-           svg_map.append("text")
-                   .attr("class","maptitle")
-                   .attr("x", (width_map / 1.5))
-                   .attr("y", (height_map / 12))
-                   .attr("text-anchor", "middle")
-                   .style("font-size", "16px")
-                   .text("County-wise jail deaths in USA - " +year);
+           //svg_map.selectAll(".maptitle").remove();
+           //svg_map.append("text")
+            //       .attr("class","maptitle")
+            //       .attr("x", (width_map / 1.5))
+            //       .attr("y", (height_map / 12))
+            //       .attr("text-anchor", "middle")
+            //       .style("font-size", "16px")
+             //      .text("County-wise jail deaths in USA - " +year);
+
+          document.getElementById("map_title_text").innerHTML = "<h6>County-wise jail deaths in USA - " +year + "</h6>";
+          deaths_by_year(deaths_data, year);
+          group_year( year);
 
 
               deaths_by_year(deaths_data, year);
@@ -1404,7 +1398,7 @@ function pieBuilder(tag, data, legendTag) {
         .attr("x", (size / 1.9))
         .attr("y", (35))
         .attr("text-anchor", "middle")
-        .style("font-size", "14px")
+        .style("font-size", "13px")
         .text(to_text);
 
     var plotArea = chart.append('g').attr('transform', 'translate(' + half + ', ' + half + ')');
