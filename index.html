@@ -67,6 +67,13 @@ body {
   shape-rendering: crispEdges;
 }
 
+.xaxis path,
+.xaxis line {
+  fill: none;
+  stroke: black;
+  shape-rendering: crispEdges;
+}
+
 axis path {
   display: none;
 }
@@ -344,6 +351,10 @@ var tooltip_map = d3.select("body").append("div")
  var bind_id_percent = {};
  var bind_id_adp = {};
 
+ var arr_obj=[];
+
+ var top10 = [];
+
  //function for initial preprocessing of data
  function deaths_total(data){
 
@@ -375,6 +386,22 @@ var tooltip_map = d3.select("body").append("div")
          bind_id_adp[parseInt(d.fips)] = Math.round(avg_adp);
        });
 
+       for(var p in bind_id_percent){
+         arr_obj.push({key:p, value:bind_id_percent[p]});
+       }
+       //console.log(arr_obj, bind_id_percent, Object.entries(bind_id_percent).map(([key, value]) => ({ key, value })));
+       arr_obj.sort(function(a,b){return b.value - a.value});
+
+       var firstTen = arr_obj.slice(0,10);
+
+      // console.log(firstTen);
+
+       top10 = firstTen.reduce(((acc, curr) => ([...acc,  { county: bind_id_name[curr.key], value: curr.value}  ])),[]);
+
+       //console.log(top10);
+
+       drawtop10();
+
  };
 
  function deaths_by_year(data, year){
@@ -386,7 +413,7 @@ var tooltip_map = d3.select("body").append("div")
       colname2 = 'adp'+year;
 
       percentage_deaths = ((d[colname])/(d[colname2]))*100;
-      bind_id_percent[parseInt(d.fips)] = d[colname];
+      bind_id_percent[parseInt(d.fips)] = parseInt(d[colname]);
       bind_id_name[parseInt(d.fips)] = d.county;
       bind_id_deaths[parseInt(d.fips)] = d[colname];
       bind_id_adp[parseInt(d.fips)] = Math.round(d[colname2]);
@@ -398,6 +425,23 @@ var tooltip_map = d3.select("body").append("div")
     });
 
       draw_map();
+
+      arr_obj = [];
+      for(var p in bind_id_percent){
+        arr_obj.push({key:p, value:bind_id_percent[p]});
+      }
+      //console.log(arr_obj, bind_id_percent, Object.entries(bind_id_percent).map(([key, value]) => ({ key, value })));
+      arr_obj.sort(function(a,b){return b.value - a.value});
+
+      var firstTen = arr_obj.slice(0,10);
+
+     // console.log(firstTen);
+
+      top10 = firstTen.reduce(((acc, curr) => ([...acc,  { county: bind_id_name[curr.key], value: curr.value}  ])),[]);
+
+      console.log(top10);
+
+      update_top10();
 
  };
 
@@ -891,7 +935,7 @@ svg.append("text")
      //Grouped bar chart
 
           var margin_group = {top: 30, right: 30, bottom: 30, left: 50};
-              var width_group = 450 - margin_group.left - margin_group.right;
+              var width_group = 350 - margin_group.left - margin_group.right;
             var  height_group = 200 - margin_group.top - margin_group.bottom;
 
               var tooltip_group = d3.select(".item2bar").append("div")
@@ -1304,6 +1348,209 @@ svg.append("text")
                                    });
                };
 
+
+               //Bar chart of top 10 county jails
+                 var chart_bar;
+               function drawtop10(){
+
+                         //  chart_bar.selectAll("rect.bar").remove();
+
+                           //chart_bar.selectAll(".yaxis").style("opacity","0").remove();
+
+                         //  y_group.domain([0,d3.max(max_map)]);
+
+
+
+                             var margin_bar = { top: 30, right: 20, bottom: 30, left: 100 };
+
+                             var width_bar = 300 - margin_bar.left - margin_bar.right;
+                             var height_bar = 200 - margin_bar.top - margin_bar.bottom;
+
+                             var tooltip_bar = d3.select(".item2bar").append("div")
+                                         .attr("class", "tooltip")
+                                          .style("opacity", 0);
+
+                             chart_bar = d3.select(".item2bar").append("svg")
+                                 .attr("width", width_bar + margin_bar.left + margin_bar.right)
+                                 .attr("height", height_bar + margin_bar.top + margin_bar.bottom)
+                               .append("g")
+                                 .attr("transform",
+                                       "translate(" + margin_bar.left + "," + margin_bar.top + ")");
+
+
+                                   // var x_bar = d3.scale.ordinal()
+                                   //       .domain(top10.map(function(d) { return d['county']; }))
+                                   //       .rangeRoundBands([0, width_bar], .1);
+
+                                   var x_bar = d3.scale.linear().domain([0, d3.max(top10, function(d) { return d['value']; })])
+                                                 .range([0, width_bar]);
+
+                                  //    var y_bar = d3.scale.linear()
+                                  // .domain([0, d3.max(top10, function(d) { return d['value']; })])
+                                  // .range([height_bar, 0]);
+
+                                  var y_bar = d3.scale.ordinal()
+                                                     .domain(top10.map(function(d) { return d['county']; }))
+                                                     .rangeRoundBands([0, height_bar]);
+
+                                  var xAxis_bar = d3.svg.axis()
+                                 .scale(x_bar)
+                                 .orient("bottom").ticks(5);
+
+                             var yAxis_bar = d3.svg.axis()
+                                 .scale(y_bar)
+                                 .orient("left");
+
+                             chart_bar.append("g")
+                                 .attr("class", "xaxis")
+                                 .attr("transform", "translate(0," + (height_bar) + ")")
+                                 .call(xAxis_bar)
+                                 //.selectAll("text")
+                                 .append("text")
+                                 .attr("x", 80)
+                                       .attr("dy", "3em")
+                                     .style("text-anchor", "middle")
+                                     .style('font-weight','bold')
+                                     .text("Number of deaths");
+
+                               //  console.log(top10);
+
+                             chart_bar.append("g")
+                                 .attr("class", "yaxis")
+                                 .call(yAxis_bar)
+                                 .append("text")
+                                 .attr("transform", "rotate(-90)")
+                               // .attr("transform", "translate(150,150)")
+                                  .attr("y", 50)
+                                  .attr("dy", ".2em")
+                                  .style("text-anchor", "end")
+                                  .text();
+
+                                  chart_bar.append("text")
+                                          .attr("class","title")
+                                          .attr("x", 20)
+                                          .attr("y", -15)
+                                          .style("font-size","14px")
+                                          .text("Top 10 Counties");
+
+                               chart_bar.selectAll(".bar")
+                                              .data(top10)
+                                             .enter().append("rect")
+                                              .attr("class", "bar")
+                                              .style("fill", "steelblue")
+                                             //.attr("x", function(d) { return x_bar(d['county']); })
+                                             .attr("width", function(d) {return x_bar(d['value']); })
+                                             .attr("y", function(d) { return y_bar(d['county']); })
+                                             .attr("height", 9)
+                                             .on("mouseover", function(d) {
+                                               tooltip_bar.html(d)
+                                                 .style("left", (d3.event.pageX)+"px")
+                                                 .style("top",(d3.event.pageY) +"px")
+                                                 .style("opacity",1)
+                                                 .style("font-size","10px")
+                                                 .text(d['value']);
+
+                                             })
+                                             .on("mouseout", function(d) {
+                                               //  d3.select(this).style("fill", color_group(d.gender));
+
+                                                 tooltip_bar.style("opacity",0);
+                                             });
+                           };
+
+
+                 function update_top10(){
+
+                    chart_bar.selectAll("rect.bar").remove();
+                     chart_bar.selectAll(".yaxis").style("opacity","0").remove();
+                       chart_bar.selectAll(".xaxis").style("opacity","0").remove();
+
+                       var margin_bar = { top: 30, right: 20, bottom: 30, left: 100 };
+
+                       var width_bar = 300 - margin_bar.left - margin_bar.right;
+                       var height_bar = 200 - margin_bar.top - margin_bar.bottom;
+
+                       var tooltip_bar = d3.select(".item2bar").append("div")
+                                   .attr("class", "tooltip")
+                                    .style("opacity", 0);
+
+                       console.log(top10);
+                       var max_bar = d3.max(top10, function(d){ return d['value']; });
+                       console.log("Max bar",max_bar);
+
+
+                       var x_bar = d3.scale.linear().domain([0, d3.max(top10, function(d){ return d['value']; })])
+                                     .range([0, width_bar]);
+
+
+
+                      //    var y_bar = d3.scale.linear()
+                      // .domain([0, d3.max(top10, function(d) { return d['value']; })])
+                      // .range([height_bar, 0]);
+
+                      var y_bar = d3.scale.ordinal()
+                                         .domain(top10.map(function(d) { return d['county']; }))
+                                         .rangeRoundBands([0, height_bar]);
+
+
+                                         var xAxis_bar = d3.svg.axis()
+                                        .scale(x_bar)
+                                        .orient("bottom").ticks(5);
+
+                                    var yAxis_bar = d3.svg.axis()
+                                        .scale(y_bar)
+                                        .orient("left");
+
+                                    chart_bar.append("g")
+                                        .attr("class", "xaxis")
+                                        .attr("transform", "translate(0," + (height_bar) + ")")
+                                        .call(xAxis_bar)
+                                        //.selectAll("text")
+                                        .append("text")
+                                        .attr("x", 80)
+                                              .attr("dy", "3em")
+                                            .style("text-anchor", "middle")
+                                            .style('font-weight','bold')
+                                            .text("Number of deaths");
+
+                                      //  console.log(top10);
+
+                                    chart_bar.append("g")
+                                        .attr("class", "yaxis")
+                                        .call(yAxis_bar)
+                                        .append("text")
+                                        .attr("transform", "rotate(-90)")
+                                      // .attr("transform", "translate(150,150)")
+                                         .attr("y", 50)
+                                         .attr("dy", ".2em")
+                                         .style("text-anchor", "end")
+                                         .text();
+
+
+                                      chart_bar.selectAll(".bar")
+                                                     .data(top10)
+                                                    .enter().append("rect")
+                                                     .attr("class", "bar")
+                                                     .style("fill", "steelblue")
+                                                    //.attr("x", function(d) { return x_bar(d['county']); })
+                                                    .attr("width", function(d) {return x_bar(d['value']); })
+                                                    .attr("y", function(d) { return y_bar(d['county']); })
+                                                    .attr("height", 9)
+                                                    .on("mouseover", function(d) {
+                                                      tooltip_bar.html(d)
+                                                        .style("left", (d3.event.pageX)+"px")
+                                                        .style("top",(d3.event.pageY) +"px")
+                                                        .style("opacity",1)
+                                                        .style("font-size","10px")
+                                                        .text(d['value']);
+
+                                                    })
+                                                    .on("mouseout", function(d) {
+                                                      //  d3.select(this).style("fill", color_group(d.gender));
+
+                                                        tooltip_bar.style("opacity",0);
+                                                    });
+                 };
 
 
 
