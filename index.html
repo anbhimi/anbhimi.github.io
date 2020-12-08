@@ -674,11 +674,11 @@ var tooltip_map = d3.select("body").append("div")
                                         //  .attr("transform","translate(-70, -250)");
 
 svg.append("text")
-        .attr("x", (width / 1.5))
+        .attr("x", (width / 2))
         .attr("y", (50))
         .attr("text-anchor", "middle")
         .style("font-size", "15px")
-        .text("Jail deaths based on causes of deaths per year");
+        .text("Jail deaths by cause of deaths per year");
 
     var g = svg.append("g")
                 .attr("transform", "translate(30,70)"); // updated from 50,70 to 30,70
@@ -1237,7 +1237,7 @@ svg.append("text")
 
                                  svg_group.append("text")
                                          .attr("class","title")
-                                         .attr("x", 20)
+                                         .attr("x", 20)     ///// position correctly
                                          .attr("y", -15)
                                          .style("font-size","14px")
                                          .text("Jail deaths based on Custody Status and Gender");
