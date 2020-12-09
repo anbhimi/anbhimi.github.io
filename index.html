@@ -1554,14 +1554,7 @@ svg.append("text")
 
 
 
-var CSS_PIE_AGE = [
-  "#ffffcc",
-  "#c7e9b4",
-  "#7fcdbb",
-  "#41b6c4",
-  "#2c7fb8",
-  "#253494"
-];
+var CSS_PIE_AGE = ['#ffffcc','#a1dab4','#41b6c4','#225ea8'];
 
 var CSS_PIE_RACE = [
   "#a6611a",
@@ -1734,11 +1727,9 @@ function pieBuilterData(filtr) {
 
     // Plot by age group
     var initialDataAge = {
-        '0-20': 0,
-        '21-40': 0,
-        '41-60': 0,
-        '61-80': 0,
-        '>80': 0,
+        '0-30': 0,
+        '31-60': 0,
+        '61-100': 0,
         'N/A': 0
     };
 
@@ -1755,16 +1746,12 @@ data.forEach(function(elem) {
     // Age Categorization
     if(elem.age == "NA") {
         initialDataAge['N/A']++;
-    } else if(elem.age > 0 && elem.age <= 20) {
-        initialDataAge['0-20']++;
-    } else if(elem.age > 20 && elem.age <= 40) {
-        initialDataAge['21-40']++;
-    } else if(elem.age > 40 && elem.age <= 60) {
-        initialDataAge['41-60']++;
-    } else if(elem.age > 60 && elem.age <= 80) {
-        initialDataAge['61-80']++;
-    } else if(elem.age > 80) {
-        initialDataAge['>80']++;
+    } else if(elem.age > 0 && elem.age <= 30) {
+        initialDataAge['0-30']++;
+    } else if(elem.age > 31 && elem.age <= 60) {
+        initialDataAge['31-60']++;
+    } else if(elem.age > 61 && elem.age <= 100) {
+        initialDataAge['61-100']++;
     }
 
     // Race Categorization - If race detail exists + 1 else initiate at 0
