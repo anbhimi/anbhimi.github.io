@@ -292,7 +292,7 @@ circle {
 
 <script>
 
-var width_map = 960, height_map = 500;
+var width_map = 760, height_map = 500;
 var color_domain = [5,10, 15, 20, 25, 30];
 var ext_color_domain = [0, 5, 10, 15, 20, 25, 30];
 var legend_labels = ["0-5", "5-10", "10-15", "15-20", "20-25", "25-30","30+"];
@@ -483,7 +483,7 @@ var tooltip_map = d3.select("body").append("div")
              .selectAll("path")
              .data(topojson.feature(data_us, data_us.objects.counties).features)
              .enter().append("path")
-             .attr("d", d3.geo.path().projection(d3.geo.albersUsa().scale(850)))
+             .attr("d", d3.geo.path().projection(d3.geo.albersUsa().scale(800)))
              .style("opacity", 1)
              .style("stroke","grey")
              .style("fill", function(d){
@@ -523,7 +523,7 @@ var tooltip_map = d3.select("body").append("div")
           .attr("fill", "none")
           .attr("stroke", "white")
           .attr("stroke-width","1px")
-          .attr("d", d3.geo.path().projection(d3.geo.albersUsa().scale(850)));
+          .attr("d", d3.geo.path().projection(d3.geo.albersUsa().scale(800)));
 
               // fill_color();
 
@@ -635,7 +635,7 @@ var tooltip_map = d3.select("body").append("div")
                      .attr("class","county")
                     .data(topojson.feature(county_data, county_data.objects.counties).features)
                    .enter().append("path")
-                    .attr("d", d3.geo.path().projection(d3.geo.albersUsa().scale(850)))
+                    .attr("d", d3.geo.path().projection(d3.geo.albersUsa().scale(800)))
                     .style("opacity", 1)
 		    .style("stroke","grey")
                     .style("fill", function(d){
@@ -674,7 +674,7 @@ var tooltip_map = d3.select("body").append("div")
          .attr("fill", "none")
          .attr("stroke", "white")
          .attr("stroke-width","1px")
-         .attr("d", d3.geo.path().projection(d3.geo.albersUsa().scale(850)));
+         .attr("d", d3.geo.path().projection(d3.geo.albersUsa().scale(800)));
 
                 //     fill_color();
 
