@@ -15,7 +15,7 @@
 
 
 path {
-  stroke:white;
+  stroke:grey;
   stroke-width: 1px;
   fill:black;
 }
@@ -512,7 +512,7 @@ var tooltip_map = d3.select("body").append("div")
                    var sel = d3.select(this);
                   d3.select(this)
                   .transition().duration(300)
-                  .style({'opacity': 0.8, 'stroke': 'white', 'stroke-width': 1});
+                  .style({'opacity': 0.8, 'stroke': 'grey', 'stroke-width': 1});
                   tooltip_map.transition().duration(300)
                   .style("opacity", 0);
               });
@@ -655,7 +655,7 @@ var tooltip_map = d3.select("body").append("div")
                           var sel = d3.select(this);
                          d3.select(this)
                          .transition().duration(300)
-                         .style({'opacity': 0.8, 'stroke': 'white', 'stroke-width': 1});
+                         .style({'opacity': 0.8, 'stroke': 'grey', 'stroke-width': 1});
                          tooltip_map.transition().duration(300)
                          .style("opacity", 0);
                      });
