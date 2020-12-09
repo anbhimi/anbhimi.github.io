@@ -343,6 +343,12 @@ var tooltip_map = d3.select("body").append("div")
            .attr("class","legend_map_title")
            .text("Number of Deaths")
            .style("font-family", "sans-serif");
+ legend_map.append("text")
+           .attr("x", 50)
+           .attr("y", 110)
+           .attr("class","legend_map_title")
+           .text("* ADP : Average daily population")
+           .style("font-family", "sans-serif");
 
  var deaths_data = [];
 
