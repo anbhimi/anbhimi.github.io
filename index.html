@@ -14,11 +14,11 @@
 <style>
 
 
-path {
+/* path {
   stroke:grey;
   stroke-width: 1px;
   fill:black;
-}
+} */
 
 div.tooltip {
   position: absolute;
@@ -292,7 +292,7 @@ circle {
 
 <script>
 
-var width_map = 760, height_map = 500;
+var width_map = 960, height_map = 500;
 var color_domain = [5,10, 15, 20, 25, 30];
 var ext_color_domain = [0, 5, 10, 15, 20, 25, 30];
 var legend_labels = ["0-5", "5-10", "10-15", "15-20", "20-25", "25-30","30+"];
@@ -483,8 +483,9 @@ var tooltip_map = d3.select("body").append("div")
              .selectAll("path")
              .data(topojson.feature(data_us, data_us.objects.counties).features)
              .enter().append("path")
-             .attr("d", d3.geo.path().projection(d3.geo.albersUsa().scale(800)))
-             .style("opacity", 0.8)
+             .attr("d", d3.geo.path().projection(d3.geo.albersUsa().scale(850)))
+             .style("opacity", 1)
+             .style("stroke","grey")
              .style("fill", function(d){
                return color_map (bind_id_percent[d.id]);
              })
@@ -512,10 +513,17 @@ var tooltip_map = d3.select("body").append("div")
                    var sel = d3.select(this);
                   d3.select(this)
                   .transition().duration(300)
-                  .style({'opacity': 0.8, 'stroke': 'grey', 'stroke-width': 1});
+                  .style({'opacity': 1, 'stroke': 'grey', 'stroke-width': 1});
                   tooltip_map.transition().duration(300)
                   .style("opacity", 0);
               });
+		  
+		  g_map.append("path")
+          .datum(topojson.mesh(data_us, data_us.objects.states, (a, b) => a !== b))
+          .attr("fill", "none")
+          .attr("stroke", "white")
+          .attr("stroke-width","1px")
+          .attr("d", d3.geo.path().projection(d3.geo.albersUsa().scale(850)));
 
               // fill_color();
 
@@ -627,8 +635,9 @@ var tooltip_map = d3.select("body").append("div")
                      .attr("class","county")
                     .data(topojson.feature(county_data, county_data.objects.counties).features)
                    .enter().append("path")
-                    .attr("d", d3.geo.path().projection(d3.geo.albersUsa().scale(800)))
-                    .style("opacity", 0.8)
+                    .attr("d", d3.geo.path().projection(d3.geo.albersUsa().scale(850)))
+                    .style("opacity", 1)
+		    .style("stroke","grey")
                     .style("fill", function(d){
                       return color_map (bind_id_percent[d.id]);
                     })
@@ -655,11 +664,17 @@ var tooltip_map = d3.select("body").append("div")
                           var sel = d3.select(this);
                          d3.select(this)
                          .transition().duration(300)
-                         .style({'opacity': 0.8, 'stroke': 'grey', 'stroke-width': 1});
+                         .style({'opacity': 1, 'stroke': 'grey', 'stroke-width': 1});
                          tooltip_map.transition().duration(300)
                          .style("opacity", 0);
                      });
-
+			
+		    g_map.append("path")
+         .datum(topojson.mesh(county_data, county_data.objects.states, (a, b) => a !== b))
+         .attr("fill", "none")
+         .attr("stroke", "white")
+         .attr("stroke-width","1px")
+         .attr("d", d3.geo.path().projection(d3.geo.albersUsa().scale(850)));
 
                 //     fill_color();
 
