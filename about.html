@@ -250,12 +250,18 @@ circle {
   
    <h4>Introduction</h4>
 	<p style="margin-left:9%; margin-right:10%;">
-	Introduction on jail deaths in USA 
+	Jail Deaths in America, this visualization is based on an article by Reuters. 
+A jail is a place which falls under the jurisdiction of a county or a local government, where people awaiting trails or convicted of minor crimes are held. The average jail stay ranges from 10 day to 20 days, where some people are let out in a day or two and some convicted felons staying for 6 months.
+There have been many studies on jail overcrowding and other concerns, but not much has been talk about the jail deaths. 
+In this article, Reuters has collected some data from the Department of Justice and collected additional data by contacting the families of people who died in jails and from the jails directly. As part of the article, the authors have tried to present data on various causes of deaths and how they can be avoided.
+We are trying to represent the data collected by the authors of this article in the form of data visualizations, so that we can add meaning to the conclusions drawn by the authors.
 	</p>
 	   
     <h4>Motivation</h4>
 	<p style="margin-left:9%; margin-right:10%;">
-	Why we chose this
+	The data collected by the authors of the article touches multiple factors and covers many locations. We are motivated by the variety and depth of information available in this article and the social cause it talks about.
+There is an urgent need to highlight this issue and an immersive visualization with interactions could help draw attention to this issue.
+
          </p>
 	
     <h4>Design Process</h4>
@@ -269,9 +275,16 @@ circle {
 	Explain US Map 
 	
 	</p>
-       <h5 style="margin-left:10%; margin-right:10%;" >Multi Line chart</h5>
+       <h5 style="margin-left:10%; margin-right:10%;" >Deaths by category from 2008 to 2019</h5>
        <p style="margin-left:13%; margin-right:10%;">
-	Explain Multiple line chart
+	The Multi Line chart represents the Deaths by categories from 2008 to 2019. The dataset provided by the authors of the document identifies 6 categories of jail deaths.
+The categories are - Natural Illness, Suicides, Drug Alcohol Related, Homicide, Accidents, and others. The dataset had the data in the form of rows and columns where the rows represented a jail, and the various columns represented the data by cause per year.
+To convert this row wise data into a usable format of the multi-line chart, I used R scripting and normalized the data. Once normalized I was able to aggregate the data by Category, Year and count the number of deaths by that category and year. Each category in the line chart is represented by a different color and shows the name of the category at the end of each line.
+The X axis of the chart represents years, and the Y axis represents the number of deaths. As there was huge variation in the number of deaths by category, we had to use a Log scale on Y axis.
+The categories Accident and Other had very low count, so we decided to group them together to reduce the number of groups on the chart and declutter the chart.
+
+As we move the mouse over the multi-line chart , a vertical line is shows us the year selected and the number of deaths in that year by each category.  The highlighted year can be clicked to visualize the interaction with other charts on the page.
+
 	
 	</p>
        <h5 style="margin-left:10%; margin-right:10%;">Pie Charts</h5>
