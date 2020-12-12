@@ -245,14 +245,19 @@ circle {
 </div>
 
 <!-- documentation -->
-<div class="w3-container" style="padding:10px 16px" id="About">
+<div class="w3-container" style="padding:10px 16px" id="About"><br>
   <!----- <h3 class="w3-left-align">About</h3>  -->
+
+    <h4>About this project</h4>
+	<p style="margin-left:9%; margin-right:10%;">
+	This visualization is based on an article by Reuters regarding the jail deaths in USA. This visualization has been designed and developed in D3 js version 3, by 4 members - Ananth Reddy, Kavitha Andem, Rajeni Nagarajan and Sindhuja Madishetty. This project is our submission to the Design, Analysis and Evaluation (INFO H517 course) taught by Dr. Khairi Reda. We have visualized the survey data based on jail deaths and other information about those jails as provided by Reuters.
+	</p>
   
    <h4>Introduction</h4>
 	<p style="margin-left:9%; margin-right:10%;">
-	Jail Deaths in America, this visualization is based on an article by Reuters. 
-A jail is a place which falls under the jurisdiction of a county or a local government, where people awaiting trails or convicted of minor crimes are held. The average jail stay ranges from 10 day to 20 days, where some people are let out in a day or two and some convicted felons staying for 6 months.
-There have been many studies on jail overcrowding and other concerns, but not much has been talk about the jail deaths. 
+	 
+A jail is a place which falls under the jurisdiction of a county or a local government, where people awaiting trails or convicted of minor crimes are held. The average jail stay ranges from 10 day to 20 days, where some people are let out in a day or two and some convicted felons stay for 6 months.
+There have been many studies on jail overcrowding and other concerns, but there has not been much of a talk about the jail deaths. 
 In this article, Reuters has collected some data from the Department of Justice and collected additional data by contacting the families of people who died in jails and from the jails directly. As part of the article, the authors have tried to present data on various causes of deaths and how they can be avoided.
 We are trying to represent the data collected by the authors of this article in the form of data visualizations, so that we can add meaning to the conclusions drawn by the authors.
 	</p>
@@ -270,58 +275,64 @@ There is an urgent need to highlight this issue and an immersive visualization w
 	
 	</p>
     <h4>Visualizations</h4>
-       <h5 style="margin-left:10%; margin-right:10%;" >US Map of Counties</h5>
+        The following section describes the design processes, choices and rationale of the design for each chart- 
+       <h5 style="margin-left:10%; margin-right:10%;" >US Map depicitng county-wise jail deaths</h5>
 	<p style="margin-left:13%; margin-right:10%;">
 	Explain US Map 
 	
 	</p>
-       <h5 style="margin-left:10%; margin-right:10%;" >Deaths by category from 2008 to 2019</h5>
+       <h5 style="margin-left:10%; margin-right:10%;" >Timeline / multiline graph depiciting deaths based on causes of deaths from 2008 to 2019</h5>
        <p style="margin-left:13%; margin-right:10%;">
-	The Multi Line chart represents the Deaths by categories from 2008 to 2019. The dataset provided by the authors of the document identifies 6 categories of jail deaths.
+	The multi line chart represents the deaths by causes of deaths from 2008 to 2019. The dataset provided by the authors of the document identifies 6 categories comprising the causes of deaths in these jails.
 The categories are - Natural Illness, Suicides, Drug Alcohol Related, Homicide, Accidents, and others. The dataset had the data in the form of rows and columns where the rows represented a jail, and the various columns represented the data by cause per year.
-To convert this row wise data into a usable format of the multi-line chart, I used R scripting and normalized the data. Once normalized I was able to aggregate the data by Category, Year and count the number of deaths by that category and year. Each category in the line chart is represented by a different color and shows the name of the category at the end of each line.
+To convert this row wise data into a usable format of the multi-line chart, we used R scripting and normalized the data. Once normalized we were able to aggregate the data by Category, Year and count the number of deaths by that category and year. Each category in the line chart is represented by a different color and shows the name of the category at the end of each line.
 The X axis of the chart represents years, and the Y axis represents the number of deaths. As there was huge variation in the number of deaths by category, we had to use a Log scale on Y axis.
-The categories Accident and Other had very low count, so we decided to group them together to reduce the number of groups on the chart and declutter the chart.
+Categories like Accident and Other had very low count, so we decided to group them together to reduce the number of groups on the chart and declutter the chart.
+Qualitative data palette has been used to represent the lines depicting the causes of deaths on the line chart. This palette was selected from color brewer and is color blind safe.
 
 As we move the mouse over the multi-line chart , a vertical line shows us the year selected and the number of deaths in that year by each category.  The highlighted year can be clicked to visualize the interaction with other charts on the page.
 
 	
 	</p>
-       <h5 style="margin-left:10%; margin-right:10%;">Pie Charts</h5>
+       <h5 style="margin-left:10%; margin-right:10%;">Pie charts depicting demographic information : Age & Ethnicity</h5>
        <p style="margin-left:13%; margin-right:10%;">
-	The static pie charts were initially constructed taking the total data into consideration.  After which, the interactions were worked to show the distributions on demographic information based on a year selected.
+		The static pie charts were initially constructed taking the total data into consideration.  After which, the interactions were worked to show the distributions on demographic information based on a year selected.<br>
 
-AGE GROUP PIECHART –
-Design process: The primary step was to glance through the age column, to get an idea of approximately what range do all the jail inmates ages fall into.  Based on this, we decided to group the age column into 6 categories where the age groups varied in groups of 0-20, 21-40, 41-60, 61-80, 80 above and N/A.  Upon visualizing this, it was observed that 0-20 age category had really low percentage of deaths. At this stage, we decided to group the categories and limit the number of sectors in the pie chart as a way of refining the chart. As a final draft, the age groups were divided into 4 groups having groups in intervals of 30. Sequential palette from color brewer was chosen for age group as it is representing quantitative data and is color blind safe.
+		<br> AGE GROUP PIECHART –<br>
+		The primary step was to glance through the age column, to get an idea of approximately what range do all the jail inmates ages fall into.  Based on this, we decided to group the age column into 6 categories where the age groups varied in groups of 0-20, 21-40, 41-60, 61-80, 80 above and N/A.  Upon visualizing this, it was observed that 0-20 age category had really low percentage of deaths. At this stage, we decided to group the categories and limit the number of sectors in the pie chart as a way of refining the chart. As a final draft, the age groups were divided into 4 groups having groups in intervals of 30. Sequential palette from color brewer was chosen for age group as it is representing quantitative data and is color blind safe. <br>
 
-ETHNICITY/ RACE PIECHART - 
-In the original dataset, the race column is categorized into White, Black, Hispanic, Asian, American Indian/ Alaska native , Pacific Islander, Others and N/A (8 categories). We decided to reduce the number of categories to show distinguishable sectors in the pie chart. The pie chart was first plotted with all the 8 categories as per the original dataset. From this, we could identify categories like Asian, American Indian, Pacific Islander had extremely low percentage of deaths by race and hence were not distinguishable on the pie chart. It was then was decided to group these categories into O (others category) so that the number of sectors in the pie are distinguishable and significant. The pie chart was then finalized with categories as Black, White, Hispanic, Others and N/A. Since race is of categorical data type, a categorical data palette was used from color brewer that is color blind safe.
+		<br> ETHNICITY/ RACE PIECHART - <br>
+		In the original dataset, the race column is categorized into White, Black, Hispanic, Asian, American Indian/ Alaska native , Pacific Islander, Others and N/A (8 categories). We decided to reduce the number of categories to show distinguishable sectors in the pie chart. The pie chart was first plotted with all the 8 categories as per the original dataset. From this, we could identify categories like Asian, American Indian, Pacific Islander had extremely low percentage of deaths by race and hence were not distinguishable on the pie chart. It was then was decided to group these categories into O (others category) so that the number of sectors in the pie are distinguishable and significant. The pie chart was then finalized with categories as Black, White, Hispanic, Others and N/A. Since race is of categorical data type, a categorical data palette was used from color brewer that is color blind safe.<br>
 
-Design rationale for the pie charts: The pie charts are dynamic and hence their legends.  Although, the categories were reduced to 4 or 5, the legends were placed next to the respective pie charts for the user to easily see how the percentages for each category belonging to age or race is being affected.  Tool tip was provided to each pie chart in case the user wishes to know about a specific sector in the pie chart. 
+		<br> Design rationale for the pie charts: The pie charts are dynamic and hence their legends.  Although, the categories were reduced to 4 or 5, the legends were placed next to the respective pie charts for the user to easily see how the percentages for each category belonging to age or race is being affected. Tool tip was provided to each pie chart in case the user wishes to know about a specific sector in the pie chart. <br>
 
 	
 	</p>
-       <h5 style="margin-left:10%; margin-right:10%;">Bar Graph</h5>
+       <h5 style="margin-left:10%; margin-right:10%;">Grouped bar chart depicting custody status by gender</h5>
        <p style="margin-left:13%; margin-right:10%;">
 	Explain bar graph
 	
 	</p>
-       <h5 style="margin-left:10%; margin-right:10%;">Horizontal Bar Graph</h5>
+       <h5 style="margin-left:10%; margin-right:10%;">Horizontal bar chart depicting top 10 counties</h5>
        <p style="margin-left:13%; margin-right:10%;">
 	Explain Horizontal bar graph
 	
 	</p>
-    <h4>Questions</h4>
+    <h4>Questions and Insights from the Visualization</h4>
       <p style="margin-left:9%; margin-right:10%;">
 	Explain the questions we tried to answer using the visualization.
 	Explain Interactions
 	
-	</p>
-    <h4>Design Challenges</h4>
+
+    </p>
+    <h4>Reflections</h4>
         <p style="margin-left:9%; margin-right:10%;">
-	Some challenges we faced during development, how we modified data.
-	Anything unique we had to do to properly display the data.
-	Any issues which are still open and need to fixed.
+    Learning outcomes :<br>
+    Limitations and challenges :<br>
+    Future scope and improvements :<br>
+
+
+
 	
 	</p>
 </body>
