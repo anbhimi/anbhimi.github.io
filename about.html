@@ -12,7 +12,202 @@
 
 </head>
 <style>
+div.tooltip {
+  position: absolute;
+  display: block;
+  z-index: 3;
+  left: 75px;
+  text-align: center;
+  height: 30px;
+  padding: 5px;
+  font-size: 16px;
+  background:lightblue;
+  border: 1px solid #989898;
+  pointer-events: none;
+}
 
+div.tooltip1 {
+  position: absolute;
+  display: block;
+  z-index: 3;
+  left: 75px;
+  text-align: center;
+  height: 47px;
+  padding: 5px;
+  font-size: 16px;
+  background:lightblue;
+  border: 1px solid #989898;
+  pointer-events: none;
+}
+
+
+body {
+  font: 10px arial;
+}
+
+.axis path,
+.axis line {
+  fill: none;
+  stroke: black;
+  shape-rendering: crispEdges;
+}
+
+.yaxis path,
+.yaxis line {
+  fill: none;
+  stroke: black;
+  shape-rendering: crispEdges;
+}
+
+.xaxis path,
+.xaxis line {
+  fill: none;
+  stroke: black;
+  shape-rendering: crispEdges;
+}
+
+axis path {
+  display: none;
+}
+    	/* text {
+			font-family: Arial;
+			font-size: 15px;
+		}
+		.axis path, .axis line {
+			fill: none;
+			stroke: black;
+			shape-rendering: crispEdges;
+		}
+		.tick text {
+			fill: gray;
+			font-size: 11px;
+		}
+		rect {
+			stroke: white;
+		}
+} */
+
+
+/* .svg {
+  position: absolute;
+  animation: panZoom 10s linear 1;
+} */
+
+
+/*
+.legend rect {
+  fill: white;
+  fill-opacity: .85;
+  stroke: white;
+}
+.legend text {
+  font-size: 12px;
+}
+path {
+    stroke-width: 1;
+    fill: none;
+    stroke-linejoin: round;
+    stroke-linecap: round;
+}
+circle {
+  stroke-width: 1;
+}
+.axis path,
+.axis line {
+  fill: none;
+  stroke: grey;
+  stroke-width: 1;
+  shape-rendering: crispEdges;
+}
+.legend, .label, .hover-text{
+    font-size: x-small;
+    background-color: white;
+} */
+
+.grid-container {
+  display: grid;
+  grid-template-areas: 'myArea1 myArea2';
+  grid-template-columns: 40vw 60vw;
+  grid-template-rows: auto;
+  grid-gap: 5px;
+  padding: 5px;
+  text-align: center;
+}
+
+.item1 {
+  grid-area: myArea1;
+}
+
+.item2 {
+  grid-area: myArea2;
+}
+
+.item11 { grid-area: pie; }
+.item1label1 { grid-area: legend1; }
+.item21 { grid-area: pie2; }
+.item2label1 { grid-area: legend2; }
+
+.grid-container1 {
+  display: grid;
+  grid-template-areas:'pie legend1 pie2 legend2';
+  grid-template-columns: 255px 110px 255px 110px;
+  grid-template-rows: auto;
+  grid-gap: 5px;
+  padding: 5px;
+  text-align: center;
+}
+
+#pie11 {
+    margin: auto;
+    background-color: white;
+  }
+
+#pie21 {
+    width: 80%;
+    margin: auto;
+    background-color: white;
+}
+
+.label-text {
+    alignment-baseline: middle;
+    font-size: 12px;
+    font-family: arial,helvetica,"sans-serif";
+    fill: #393939;
+}
+.label-line {
+    stroke-width: 1;
+    /* stroke: #393939; */
+}
+.label-circle {
+    fill: #393939;
+}
+
+.rounder {
+    height: 10px;
+    width: 10px;
+    border-radius: 50%;
+    display: inline-block;
+}
+
+.boundBox {
+    border: 1px black solid;
+    padding: 10px;
+    width: 43%;
+    text-align: left;
+    margin-top: 90px;
+}
+
+#pie1label1 {
+  text-align: left;
+  border: 1px black solid;
+  padding:5px;
+}
+
+#pie2label1 {
+  border: 1px black solid;
+  text-align: left;
+  padding:5px;
+}
 </style>
 
 
