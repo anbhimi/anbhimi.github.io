@@ -319,16 +319,35 @@ There is an urgent need to highlight this issue and an immersive visualization w
 
          </p> -->
 
-         <div class="w3-card-4" style="width:100%;  justify-content:center;  background-color:floralwhite;">
+          <div class="w3-card-4" style="width:100%;  justify-content:center;  background-color:floralwhite;">
              <header class="w3-container" style="background-color:blanchedalmond;">
              <h4>Design Process</h4>
                  </header>
                  <p style="margin-left:9%; margin-right:10%; font-size:13px">
-                  The dataset consists of
+                   After exploring the data, we observed that the dataset consists of information such as State and County of the jail, number of deaths from 2008-2019,
+                   reasons behind those deaths, average number of inmates in the jail in a given year, demographic information of the dead inmates such as  age, race and gender.
+                   We have also observed that most of the dataset contains null values and to avoid irregularities we have to filter those null values.
+                   Since we have county level information, we thought that the best way to represent each of these counties on a single chart is to visualize them using a US map. Also, to make it easier to observe county level information, we want the map to be large enough so that it occupies a major part of our visualization.
+                   Next, we want to show the trends in number of deaths over the years, for which a timeline chart would be the best choice. Also, we want to analyze the causes of deaths and how these causes changed over the years.
+                   So, we have a cumulative timeline chart which shows the trends in total number of deaths as well as various causes of deaths. We also want to analze the demographic information like the age group and race of the inmates to know which
+                   age groups have higher mortality rates, which races are most impacted etc. Depending on the data, we planned to divide these age values into four or five different groups and represent those using a pie chart. We dont want to overwhelm the user by having too many values on the pie chart.
+                   Hence we decided to group the ages. Similarly, we have 4 or 5 different race categories in the dataset and hence we decided to visualize these values using a pie chart.
+                   We also want to show the gender information for which we initially planned to have a pie chart for that as well. But since we already have two pie charts, we thought of grouping gender information with custody status information and display them using a grouped bar chart.
+                   Also, we didnt want the user to move to different pages or scroll down the page to view different visualizations and hence we planned to display all the graphs in a single page such that user can get a view of all the graphs at a glance. Based on the above points, we initially planned to have a layout as shown below.
+                   <br> <br>
+                   <img src="design_1.jpg" alt="Initial Layout" width="500" height="300"> <br><br>
+
+                   After we started working on the layout, we observed that map along with its legend, occupied larger space than we expected. Reducing the size of the map further made it hard to observe county level information. Hence, we had to change the layout such that map occupies the left hand side of the page. On the right side, we had to adjust timeline chart, pie charts and grouped bar chart.
+                   Also, we noticed that it is still hard for the user to get the top 10 counties information based on number of deaths. Hence we wanted to include a bar chart to display top 10 counites information. After considering the above points,
+                   we experimented different layouts and finalized the below layout. <br> <br>
+
+                   <img src = "design_2.jpg" alt = "Final layout" width="500" height="333"> <br> <br>
+
+                   We planned to show year wise data as well. Hence we have designed all these graphs in such a way that all the charts interacts with the timeline chart i.e, when user selects a particular year on the timeline chart, all the charts will be updated accordingly.
+
 
                <br> <br> </p>
            </div>
-
 <!--
     <h4>Design Process</h4>
 	<p style="margin-left:9%; margin-right:10%;">
