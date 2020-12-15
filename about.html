@@ -275,9 +275,6 @@ ques{
           <br><br></p>
     </div>
 
-	<!-- <p style="margin-left:9%; margin-right:10%; font-size:12px">
-	This visualization is based on an article by Reuters regarding the jail deaths in USA. This visualization has been designed and developed in D3 js version 3, by 4 members - Ananth Reddy, Kavitha Andem, Rajeni Nagarajan and Sindhuja Madishetty. This project is our submission to the Design, Analysis and Evaluation (INFO H517 course) taught by Dr. Khairi Reda. We have visualized the survey data based on jail deaths and other information about those jails as provided by Reuters.
-	</p> -->
 
   <div class="w3-card-4" style="width:100%;  justify-content:center;  background-color: floralwhite;">
       <header class="w3-container" style="background-color:blanchedalmond;">
@@ -292,14 +289,7 @@ ques{
         	<br> <br> </p>
     </div>
 
-   <!-- <h4>Introduction</h4>
-	<p style="margin-left:9%; margin-right:10%; font-size:12px">
 
-A jail is a place which falls under the jurisdiction of a county or a local government, where people awaiting trails or convicted of minor crimes are held. The average jail stay ranges from 10 day to 20 days, where some people are let out in a day or two and some convicted felons stay for 6 months.
-There have been many studies on jail overcrowding and other concerns, but there has not been much of a talk about the jail deaths.
-In this article, Reuters has collected some data from the Department of Justice and collected additional data by contacting the families of people who died in jails and from the jails directly. As part of the article, the authors have tried to present data on various causes of deaths and how they can be avoided.
-We are trying to represent the data collected by the authors of this article in the form of data visualizations, so that we can add meaning to the conclusions drawn by the authors.
-	</p> -->
 
   <div class="w3-card-4" style="width:100%; justify-content:center;  background-color:floralwhite;">
       <header class="w3-container" style="background-color:blanchedalmond;">
@@ -307,17 +297,12 @@ We are trying to represent the data collected by the authors of this article in 
           </header>
           <p style="margin-left:9%; margin-right:10%; font-size:13px">
 
-            The data collected by the authors of the article touches multiple factors and covers many locations. We are motivated by the variety and depth of information available in this article and the social cause it talks about.
+            The data collected by the authors of the article touches on multiple factors and covers many locations. We are motivated by the variety and depth of information available in this article and the social cause it talks about.
           There is an urgent need to highlight this issue and an immersive visualization with interactions could help draw attention to this issue.
         <br> <br> </p>
     </div>
 
-    <!-- <h4>Motivation</h4>
-	<p style="margin-left:9%; margin-right:10%;">
-	The data collected by the authors of the article touches multiple factors and covers many locations. We are motivated by the variety and depth of information available in this article and the social cause it talks about.
-There is an urgent need to highlight this issue and an immersive visualization with interactions could help draw attention to this issue.
 
-         </p> -->
 
           <div class="w3-card-4" style="width:100%;  justify-content:center;  background-color:floralwhite;">
              <header class="w3-container" style="background-color:blanchedalmond;">
@@ -329,7 +314,7 @@ There is an urgent need to highlight this issue and an immersive visualization w
                    We have also observed that most of the dataset contains null values and to avoid irregularities we have to filter those null values.
                    Since we have county level information, we thought that the best way to represent each of these counties on a single chart is to visualize them using a US map. Also, to make it easier to observe county level information, we want the map to be large enough so that it occupies a major part of our visualization.
                    Next, we want to show the trends in number of deaths over the years, for which a timeline chart would be the best choice. Also, we want to analyze the causes of deaths and how these causes changed over the years.
-                   So, we have a cumulative timeline chart which shows the trends in total number of deaths as well as various causes of deaths. We also want to analze the demographic information like the age group and race of the inmates to know which
+                   So, we have a cumulative timeline chart which shows the trends in total number of deaths as well as various causes of deaths. We also want to analyze the demographic information like the age group and race of the inmates to know which
                    age groups have higher mortality rates, which races are most impacted etc. Depending on the data, we planned to divide these age values into four or five different groups and represent those using a pie chart. We dont want to overwhelm the user by having too many values on the pie chart.
                    Hence we decided to group the ages. Similarly, we have 4 or 5 different race categories in the dataset and hence we decided to visualize these values using a pie chart.
                    We also want to show the gender information for which we initially planned to have a pie chart for that as well. But since we already have two pie charts, we thought of grouping gender information with custody status information and display them using a grouped bar chart.
@@ -348,12 +333,7 @@ There is an urgent need to highlight this issue and an immersive visualization w
 
                <br> <br> </p>
            </div>
-<!--
-    <h4>Design Process</h4>
-	<p style="margin-left:9%; margin-right:10%;">
-	How we designed our visualization
 
-	</p> -->
 
   <div class="w3-card-4" style="width:100%;  justify-content:center;  background-color:floralwhite;">
       <header class="w3-container" style="background-color:blanchedalmond;">
@@ -403,26 +383,18 @@ As we move the mouse over the multi-line chart , a vertical line shows us the ye
 		<h6 style="margin-left:13%; margin-right:10%; "> Ethnicity/Race pie chart </h6>
 		<p style="margin-left:13%; margin-right:10%; font-size:13px;"> In the original dataset, the race column is categorized into White, Black, Hispanic, Asian, American Indian/ Alaska native , Pacific Islander, Others and N/A (8 categories). We decided to reduce the number of categories to show distinguishable sectors in the pie chart. The pie chart was first plotted with all the 8 categories as per the original dataset. From this, we could identify categories like Asian, American Indian, Pacific Islander had extremely low percentage of deaths by race and hence were not distinguishable on the pie chart. It was then was decided to group these categories into O (others category) so that the number of sectors in the pie are distinguishable and significant. The pie chart was then finalized with categories as Black, White, Hispanic, Others and N/A. Since race is of categorical data type, a categorical data palette was used from color brewer that is color blind safe.<br>
 
-		<br> Design rationale for the pie charts: The pie charts are dynamic and hence their legends.  Although, the categories were reduced to 4 or 5, the legends were placed next to the respective pie charts for the user to easily see how the percentages for each category belonging to age or race is being affected. Tool tip was provided to each pie chart in case the user wishes to know about a specific sector in the pie chart. <br>
+		<br>The pie charts are dynamic and hence their legends. Although, the categories were reduced to 4 or 5, the legends were placed next to the respective pie charts for the user to easily see how the percentages for each category belonging to age or race is being affected. Tool tip was provided to each pie chart in case the user wishes to know about a specific sector in the pie chart. The age and race columns for piecharts also have null values which are represented as Not Applicable values (N/A). The pie charts interact with the timeline chart to show the respective demographic information and the pre-processing of the data for each of the piechart is done using a javascript function.<br>
 
 	</p>
        <h5 style="margin-left:10%; margin-right:10%;">Grouped bar chart depicting custody status by gender</h5>
 	  <p style="margin-left:13%; margin-right:10%; font-style:13px;">
-            The grouped bar chart represents the gender and convicted status of inmates dies in jails between 2008-2019. In the dataset, the convicted status has 
+            The grouped bar chart represents the gender and convicted status of inmates deaths in jails between 2008-2019. In the dataset, the convicted status has 
 	    two possible values - Convicted and Unconvicted and gender has two possible values - Male and Female. But the dataset is not complete and has a lot of 
 	    null values which are represented as Not Applicable values (N/A).
-	  </p>
-	  
-	  <p>
-	    The grouped bar chart will interact with the line plot (Timeline Plot) - so that the information about gender and convicted status can be provided 
+	    The grouped bar chart interacts with the line plot (Timeline Plot) - so that the information about gender and convicted status can be provided 
             every year. A javascript function has been used to extract the values as needed and plotted accordingly on the grouped bar plot. Finally, we used 
 	    color brewer to choose colors which are color-blind safe.
-	  </p>
 	  
-	  <p>
-	    From the visualization, we can observe that in the years 2014, 2015 and 2018 - Unconvicted inmates died at a whopping number compared to convicted 
-	    inmates. And in 2012 and 2019, the data is reliable as null values are dominating.
-	  </p>
 	  
        <h5 style="margin-left:10%; margin-right:10%;">Horizontal bar chart depicting top 10 counties</h5>
        <p style="margin-left:13%; margin-right:10%; font-size:13px;">
@@ -452,7 +424,7 @@ From the visualization developed, we can derive the answers to the following que
 From the race/ethnicity pie chart, inmates of White origin faced most jail deaths contributing to 48.74% from the total deaths, followed by inmates of Black origin with 28.17% and Hispanic origin with 11.62%. The 2.59% of total deaths are inmates from other origins which also includes Asian, American Indian, Pacific Islander. 8.88% of the total deaths are inmates from unknown origin.<br> </p>
 
 <h6 style="margin-left:9%; margin-right:10%; "> Location and more details about top 10 county jails with high inmate mortality rates :</h6>
-<p>From the horizontal bar graph in the bottom right, we can infer that Los Angeles county in California has had the greatest number of deaths every year with an average daily inmate population of 17,572. The total number of deaths in LA county amounted to 317.  The top 10 counties with the greatest number of jails deaths are – Los Angeles, Philadelphia, Harris, Cook, Miami-Diade, Maricopa, Broward, San Bernardino, Oklahoma, and Alameda. <br></p>
+<p>From the horizontal bar graph in the bottom right, we can infer that Los Angeles county in California has had the greatest number of deaths every year with an average daily inmate population of 17,572. The total number of deaths in LA county amounted to 317.  The top 10 counties with the greatest number of jails deaths overall, are – Los Angeles, Philadelphia, Harris, Cook, Miami-Diade, Maricopa, Broward, San Bernardino, Oklahoma, and Alameda. <br></p>
 
 <h6 style="margin-left:9%; margin-right:10%; "> Trend of inmate mortality in America’s jails over years :</h6>
 <p>The number of deaths recorded in 2008 were 468. There has been a steady increase in deaths over the years reaching a peak in 2017 by making a record of 731 deaths and then a slight dip in deaths by 2019. This shows that, there were some serious measures taken to reduce the number of deaths after 2017. <br></p>
@@ -463,7 +435,7 @@ Deaths caused by drug and alcohol have gradually been increasing over the years 
 
 <h6 style="margin-left:9%; margin-right:10%; "> Deaths by custody status, i.e if he is convicted or unconvicted at the time of death based on Gender :</h6>
 <p>Deaths by custody status, i.e if he is convicted or unconvicted at the time of death based on Gender :</h6>
-Overall, for years between 2008-2019, it can be observed that there is majority of inmates who are male remain un-convicted at the time of death. <br> <br>
+Overall, for years between 2008-2019, it can be observed that there is majority of inmates who are male remain un-convicted at the time of death. From the visualization, we can also observe that in the years 2014, 2015 and 2018 - Unconvicted inmates died at a whopping number compared to convicted inmates. And in 2012 and 2019, the data is reliable as null values are dominating. <br> <br>
 
   </p>
 </div>
@@ -474,9 +446,11 @@ Overall, for years between 2008-2019, it can be observed that there is majority 
     <h4>Reflections</h4> </header>
         <p>
     <br>Learning outcomes :<br>
-    Upon pursuing this project, we learnt how to design and develop a visualization for a given data based on questions we would like the visualization to answer. Designing and developing a visualization takes time and is an interative process. Working on real time data or survey data requires time in understanding, pre-processing and aggregating data based on what we would like to visualize. <br>
+    Upon pursuing this project, we learnt how to design and develop a visualization for a given data based on questions we would like the visualization to answer.
+    <br>2) Designing and developing a visualization takes time and is an interative process.
+    <br>3) Working on real time data or survey data requires time in understanding, pre-processing and aggregating data based on what we would like to visualize.<br>
     <br>Limitations and challenges :<br>
-    We had to work around our design and code to handle a large amount of N/A values in the dataset. Almost all the columns had N/A values, so we were not left with the option of omitting these columns. <br>
+    We had to work around our design and pre-processing of the data in the code to handle a large amount of N/A values in the dataset. Almost all the columns had N/A values, so we were not left with the option of omitting these columns. <br>
     <br>Future scope and improvements :<br>
     1) We would consider showing deaths for each state as another view on the map linked to the timeline graph.<br>
     2) Include a filter to show the names of jail centers associated with each county.<br>
@@ -493,7 +467,8 @@ Overall, for years between 2008-2019, it can be observed that there is majority 
     <br>3) Bostock, M. (n.d.). Data-Driven Documents. Retrieved from https://d3js.org<br>
     <br>4) Simple Pie Chart example with D3.js. (n.d.).from http://bl.ocks.org/enjalot/1203641<br>
     <br>5) US County map http://bl.ocks.org/jadiehm/af4a00140c213dfbc4e6<br>
-    <br>6) Grouped bar chart https://bl.ocks.org/bricedev/0d95074b6d83a77dc3ad <br>
+    <br>6) Grouped bar chart https://bl.ocks.org/bricedev/0d95074b6d83a77dc3ad<br>
+    <br>7) Multiline chart https://bl.ocks.org/larsenmtl/e3b8b7c2ca4787f77d78f58d41c3da91<br>
     <br>
 	</p>
 
