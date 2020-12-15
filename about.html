@@ -363,13 +363,13 @@ ques{
        <h5 style="margin-left:10%; margin-right:10%;" >Timeline / multiline graph depiciting deaths based on causes of deaths from 2008 to 2019</h5>
        <p style="margin-left:13%; margin-right:10%; justify-content:center; font-size:13px">
 	The multi line chart represents the deaths by causes of deaths from 2008 to 2019. The dataset provided by the authors of the document identifies 6 categories comprising the causes of deaths in these jails.
-The categories are - Natural Illness, Suicides, Drug Alcohol Related, Homicide, Accidents, and others. The dataset had the data in the form of rows and columns where the rows represented a jail, and the various columns represented the data by cause per year.
-To convert this row wise data into a usable format of the multi-line chart, we used R scripting and normalized the data. Once normalized we were able to aggregate the data by Category, Year and count the number of deaths by that category and year. Each category in the line chart is represented by a different color and shows the name of the category at the end of each line.
-The X axis of the chart represents years, and the Y axis represents the number of deaths. As there was huge variation in the number of deaths by category, we had to use a Log scale on Y axis.
-Categories like Accident and Other had very low count, so we decided to group them together to reduce the number of groups on the chart and declutter the chart.
-Qualitative data palette has been used to represent the lines depicting the causes of deaths on the line chart. This palette was selected from color brewer and is color blind safe.
-
-As we move the mouse over the multi-line chart , a vertical line shows us the year selected and the number of deaths in that year by each category.  The highlighted year can be clicked to visualize the interaction with other charts on the page.
+        The categories are - Natural Illness, Suicides, Drug Alcohol Related, Homicide, Accidents, and others. The dataset had the data in the form of rows and columns where the rows represented a jail, and the various columns represented the data by cause per year.
+        To convert this row wise data into a usable format of the multi-line chart, we used R scripting and normalized the data. Once normalized we were able to aggregate the data by Category, Year and count the number of deaths by that category and year. Each category in the line chart is represented by a different color and shows the name of the category at the end of each line.
+        The X axis of the chart represents years, and the Y axis represents the number of deaths. As there was huge variation in the number of deaths by category, we had to use a Log scale on Y axis.
+        Categories like Accident and Other had very low count, so we decided to group them together to reduce the number of groups on the chart and declutter the chart.
+        Qualitative data palette has been used to represent the lines depicting the causes of deaths on the line chart. This palette was selected from color brewer and is color blind safe.
+	       <br><br>
+         As we move the mouse over the multi-line chart , a vertical line shows us the year selected and the number of deaths in that year by each category.  The highlighted year can be clicked to visualize the interaction with other charts on the page.
 
 
 	</p>
