@@ -51,6 +51,7 @@ div.tooltip1 {
 
 body {
   font: 10px arial;
+
 }
 
 .axis path,
@@ -217,9 +218,26 @@ circle {
   padding:5px;
 }
 
+p{
+  font-size:13px;
+  margin-left:9%;
+  margin-right:10%;
+}
+
+card{
+  width:80%;
+  margin-left:10%;
+  margin-right:10%;
+  justify-content:center;
+  background-color:white;
+}
+
+ques{
+  margin-left:9%;
+  margin-right:10%;
+}
+
 </style>
-
-
 <body>
 
 
@@ -248,41 +266,103 @@ circle {
 <div class="w3-container" style="padding:10px 16px" id="About"><br>
   <!----- <h3 class="w3-left-align">About</h3>  -->
 
-    <h4>About this project</h4>
-	<p style="margin-left:9%; margin-right:10%;">
+  <div class="w3-card-4" style="width:100%;  justify-content:center;  background-color:floralwhite;">
+      <header class="w3-container" style="background-color:blanchedalmond;">
+        <h4>About this project</h4>
+          </header>
+        <p style="margin-left:9%; margin-right:10%; font-size:13px">
+        This visualization is based on an article by Reuters regarding the jail deaths in USA. This visualization has been designed and developed in D3 js version 3, by 4 members - Ananth Reddy, Kavitha Andem, Rajeni Nagarajan and Sindhuja Madishetty. This project is our submission to the Visualization Design, Analysis and Evaluation (INFO H517 course) taught by Dr. Khairi Reda. We have visualized the survey data based on jail deaths and other information about those jails as provided by Reuters.
+          <br><br></p>
+    </div>
+
+	<!-- <p style="margin-left:9%; margin-right:10%; font-size:12px">
 	This visualization is based on an article by Reuters regarding the jail deaths in USA. This visualization has been designed and developed in D3 js version 3, by 4 members - Ananth Reddy, Kavitha Andem, Rajeni Nagarajan and Sindhuja Madishetty. This project is our submission to the Design, Analysis and Evaluation (INFO H517 course) taught by Dr. Khairi Reda. We have visualized the survey data based on jail deaths and other information about those jails as provided by Reuters.
-	</p>
-  
-   <h4>Introduction</h4>
-	<p style="margin-left:9%; margin-right:10%;">
-	 
+	</p> -->
+
+  <div class="w3-card-4" style="width:100%;  justify-content:center;  background-color: floralwhite;">
+      <header class="w3-container" style="background-color:blanchedalmond;">
+       <h4>Introduction</h4>
+          </header>
+          <p style="margin-left:9%; margin-right:10%; font-size:13px; ">
+
+        A jail is a place which falls under the jurisdiction of a county or a local government, where people awaiting trails or convicted of minor crimes are held. The average jail stay ranges from 10 day to 20 days, where some people are let out in a day or two and some convicted felons stay for 6 months.
+        There have been many studies on jail overcrowding and other concerns, but there has not been much of a talk about the jail deaths.
+        In this article, Reuters has collected some data from the Department of Justice and collected additional data by contacting the families of people who died in jails and from the jails directly. As part of the article, the authors have tried to present data on various causes of deaths and how they can be avoided.
+        We are trying to represent the data collected by the authors of this article in the form of data visualizations, so that we can add meaning to the conclusions drawn by the authors.
+        	<br> <br> </p>
+    </div>
+
+   <!-- <h4>Introduction</h4>
+	<p style="margin-left:9%; margin-right:10%; font-size:12px">
+
 A jail is a place which falls under the jurisdiction of a county or a local government, where people awaiting trails or convicted of minor crimes are held. The average jail stay ranges from 10 day to 20 days, where some people are let out in a day or two and some convicted felons stay for 6 months.
-There have been many studies on jail overcrowding and other concerns, but there has not been much of a talk about the jail deaths. 
+There have been many studies on jail overcrowding and other concerns, but there has not been much of a talk about the jail deaths.
 In this article, Reuters has collected some data from the Department of Justice and collected additional data by contacting the families of people who died in jails and from the jails directly. As part of the article, the authors have tried to present data on various causes of deaths and how they can be avoided.
 We are trying to represent the data collected by the authors of this article in the form of data visualizations, so that we can add meaning to the conclusions drawn by the authors.
-	</p>
-	   
-    <h4>Motivation</h4>
+	</p> -->
+
+  <div class="w3-card-4" style="width:100%; justify-content:center;  background-color:floralwhite;">
+      <header class="w3-container" style="background-color:blanchedalmond;">
+      <h4>Motivation</h4>
+          </header>
+          <p style="margin-left:9%; margin-right:10%; font-size:13px">
+
+            The data collected by the authors of the article touches multiple factors and covers many locations. We are motivated by the variety and depth of information available in this article and the social cause it talks about.
+          There is an urgent need to highlight this issue and an immersive visualization with interactions could help draw attention to this issue.
+        <br> <br> </p>
+    </div>
+
+    <!-- <h4>Motivation</h4>
 	<p style="margin-left:9%; margin-right:10%;">
 	The data collected by the authors of the article touches multiple factors and covers many locations. We are motivated by the variety and depth of information available in this article and the social cause it talks about.
 There is an urgent need to highlight this issue and an immersive visualization with interactions could help draw attention to this issue.
 
-         </p>
-	
+         </p> -->
+
+         <div class="w3-card-4" style="width:100%;  justify-content:center;  background-color:floralwhite;">
+             <header class="w3-container" style="background-color:blanchedalmond;">
+             <h4>Design Process</h4>
+                 </header>
+                 <p style="margin-left:9%; margin-right:10%; font-size:13px">
+                  The dataset consists of
+
+               <br> <br> </p>
+           </div>
+
+<!--
     <h4>Design Process</h4>
 	<p style="margin-left:9%; margin-right:10%;">
 	How we designed our visualization
-	
-	</p>
+
+	</p> -->
+
+  <div class="w3-card-4" style="width:100%;  justify-content:center;  background-color:floralwhite;">
+      <header class="w3-container" style="background-color:blanchedalmond;">
     <h4>Visualizations</h4>
-        The following section describes the design processes, choices and rationale of the design for each chart- 
+     </header>
+         <p style="margin-left:9%; margin-right:10%; justify-content:center; font-size:13px">
+             The following section describes the design processes, choices and rationale of the design for each chart- </p>
        <h5 style="margin-left:10%; margin-right:10%;" >US Map depicitng county-wise jail deaths</h5>
-	<p style="margin-left:13%; margin-right:10%;">
-	Explain US Map 
-	
+	<p style="margin-left:13%; margin-right:10%; font-size:13px">
+
+     The US map was generated using d3's topojson library. The dataset contains fips id of each county which is linked to the fips id of the us.json file.
+     We have year-wise deaths information in separate columns for each county, which are aggregated using javascript.
+     For Average Daily Population (ADP) for all the years, we have taken an average of all the years' ADP values for each individual county. All this data preprocessing steps are implemented using javascript.
+     The map is colorcoded based on total number of deaths for each county. We have used a Choropleth map to make it easier for the user to estimate the number of deaths
+     in each county, with the help of color coding. Legend for color code is provided below the map. Based on the range of values of total deaths, we have taken an interval range of 5, where each color represents a partcular interval range.
+     Since these values are sequential, we have used a sequential color palette from colorbrewer, which is colorblind safe, to represent these values. When user hovers over a particular value on the county, the name of the county, number of deaths, and Average Daily Population (ADP) of that particular county is displayed on the tooltip.
+     Displaying these details makes it easier for the user to compare the number of deaths against average inmate population.
+     The zoom in/ zoom out and panning options on the map helps the user to get a detailed view of a particular area or state. User can click on Reset Map button to reset the map to its original size.
+     <br><br>
+     The US map interacts with the timeline chart i.e, when the user selects a particular year on the timeline chart, the corresponding year's data is updated on the map.
+     The colorscaling of the map also updates, based on the user selection. Since the range of deaths will be reduced when displaying data for a single year, we have changed the color scale interval to 1, to show the differentiation on the map.
+     The details will be reflected on the color scale legend. The data on the tooltip will also be updated for that particular year for all the counties.
+
+
+
 	</p>
        <h5 style="margin-left:10%; margin-right:10%;" >Timeline / multiline graph depiciting deaths based on causes of deaths from 2008 to 2019</h5>
-       <p style="margin-left:13%; margin-right:10%;">
+       <p style="margin-left:13%; margin-right:10%; justify-content:center; font-size:13px">
 	The multi line chart represents the deaths by causes of deaths from 2008 to 2019. The dataset provided by the authors of the document identifies 6 categories comprising the causes of deaths in these jails.
 The categories are - Natural Illness, Suicides, Drug Alcohol Related, Homicide, Accidents, and others. The dataset had the data in the form of rows and columns where the rows represented a jail, and the various columns represented the data by cause per year.
 To convert this row wise data into a usable format of the multi-line chart, we used R scripting and normalized the data. Once normalized we were able to aggregate the data by Category, Year and count the number of deaths by that category and year. Each category in the line chart is represented by a different color and shows the name of the category at the end of each line.
@@ -292,61 +372,74 @@ Qualitative data palette has been used to represent the lines depicting the caus
 
 As we move the mouse over the multi-line chart , a vertical line shows us the year selected and the number of deaths in that year by each category.  The highlighted year can be clicked to visualize the interaction with other charts on the page.
 
-	
+
 	</p>
        <h5 style="margin-left:10%; margin-right:10%;">Pie charts depicting demographic information : Age & Ethnicity</h5>
-       <p style="margin-left:13%; margin-right:10%;">
+       <p style="margin-left:13%; margin-right:10%; font-size:13px;">
 		The static pie charts were initially constructed taking the total data into consideration.  After which, the interactions were worked to show the distributions on demographic information based on a year selected.<br>
 
-		<br> AGE GROUP PIECHART –<br>
-		The primary step was to glance through the age column, to get an idea of approximately what range do all the jail inmates ages fall into.  Based on this, we decided to group the age column into 6 categories where the age groups varied in groups of 0-20, 21-40, 41-60, 61-80, 80 above and N/A.  Upon visualizing this, it was observed that 0-20 age category had really low percentage of deaths. At this stage, we decided to group the categories and limit the number of sectors in the pie chart as a way of refining the chart. As a final draft, the age groups were divided into 4 groups having groups in intervals of 30. Sequential palette from color brewer was chosen for age group as it is representing quantitative data and is color blind safe. <br>
+		<h6 style="margin-left:13%; margin-right:10%; "> Age group pie chart </h6>
+		<p style="margin-left:13%; margin-right:10%; font-size:13px;"> The primary step was to glance through the age column, to get an idea of approximately what range do all the jail inmates ages fall into.  Based on this, we decided to group the age column into 6 categories where the age groups varied in groups of 0-20, 21-40, 41-60, 61-80, 80 above and N/A.  Upon visualizing this, it was observed that 0-20 age category had really low percentage of deaths. At this stage, we decided to group the categories and limit the number of sectors in the pie chart as a way of refining the chart. As a final draft, the age groups were divided into 4 groups having groups in intervals of 30. Sequential palette from color brewer was chosen for age group as it is representing quantitative data and is color blind safe. <br></p>
 
-		<br> ETHNICITY/ RACE PIECHART - <br>
-		In the original dataset, the race column is categorized into White, Black, Hispanic, Asian, American Indian/ Alaska native , Pacific Islander, Others and N/A (8 categories). We decided to reduce the number of categories to show distinguishable sectors in the pie chart. The pie chart was first plotted with all the 8 categories as per the original dataset. From this, we could identify categories like Asian, American Indian, Pacific Islander had extremely low percentage of deaths by race and hence were not distinguishable on the pie chart. It was then was decided to group these categories into O (others category) so that the number of sectors in the pie are distinguishable and significant. The pie chart was then finalized with categories as Black, White, Hispanic, Others and N/A. Since race is of categorical data type, a categorical data palette was used from color brewer that is color blind safe.<br>
+		<h6 style="margin-left:13%; margin-right:10%; "> Ethnicity/Race pie chart </h6>
+		<p style="margin-left:13%; margin-right:10%; font-size:13px;"> In the original dataset, the race column is categorized into White, Black, Hispanic, Asian, American Indian/ Alaska native , Pacific Islander, Others and N/A (8 categories). We decided to reduce the number of categories to show distinguishable sectors in the pie chart. The pie chart was first plotted with all the 8 categories as per the original dataset. From this, we could identify categories like Asian, American Indian, Pacific Islander had extremely low percentage of deaths by race and hence were not distinguishable on the pie chart. It was then was decided to group these categories into O (others category) so that the number of sectors in the pie are distinguishable and significant. The pie chart was then finalized with categories as Black, White, Hispanic, Others and N/A. Since race is of categorical data type, a categorical data palette was used from color brewer that is color blind safe.<br>
 
 		<br> Design rationale for the pie charts: The pie charts are dynamic and hence their legends.  Although, the categories were reduced to 4 or 5, the legends were placed next to the respective pie charts for the user to easily see how the percentages for each category belonging to age or race is being affected. Tool tip was provided to each pie chart in case the user wishes to know about a specific sector in the pie chart. <br>
 
-	
 	</p>
        <h5 style="margin-left:10%; margin-right:10%;">Grouped bar chart depicting custody status by gender</h5>
-       <p style="margin-left:13%; margin-right:10%;">
-	Explain bar graph
-	
-	</p>
+       <p style="margin-left:13%; margin-right:10%; font-style:13px;">
+            Grouped bar chart represents the total number of deaths based on custody satus and gender.
+	      </p>
        <h5 style="margin-left:10%; margin-right:10%;">Horizontal bar chart depicting top 10 counties</h5>
-       <p style="margin-left:13%; margin-right:10%;">
-	Explain Horizontal bar graph
-	
+       <p style="margin-left:13%; margin-right:10%; font-size:13px;">
+         Horizontal bar chart represents the top 10 counties based on total number of deaths. Instead of providing just a list of top 10 counties, a bar chart helps the user to have a relative comaprision between the counties.
+         We have opted for a horizontal bar chart because this view helps in displaying county names in a more readable format when compared to the vertical bar chart.
+         The data preprocessing for the horizontal bar chart is implemented using javascript. We have also added a tooltip to display the number of deaths for that particular county.
+         This bar chart interacts with the timeline chart, i.e if the user selects a particular year, the top 10 counties for that particular year are updated on the bar graph.
+         X-axis values are dynamically updated based on the values for that particular year.
+       </p>
+ <br><br>
+
+</div>
+
 	</p>
+
+  <div class="w3-card-4" style="width:100%;  justify-content:center;  background-color:floralwhite;">
+      <header class="w3-container" style="background-color:blanchedalmond;">
     <h4>Questions and Insights from the Visualization</h4>
-      <p style="margin-left:9%; margin-right:10%;">
+  </header>
+      <p style="margin-left:9%; margin-right:10%; font-size:13px;">
 From the visualization developed, we can derive the answers to the following questions-<br>
-<br> The number of inmates who died in a county jail in a year between 2008-2019 and the number of inmates in the county jail on an average (ADP) :<br>
-Upon selecting a year on the multiline chart, we can see the jail deaths for that particular year color encoded on the map.  Among all the years, we find that 2017 had most of number of jail deaths. The total number of deaths amounted to 731 for that year.  In contrast to 2017, the year 2008 saw the least number of deaths amounting to 468.  Overall, when we observe the map displaying the total deaths, we find that the jail deaths are mostly concentrated towards the west coast, specifically in states like California and Arizona.<br>
+  <h6 style="margin-left:9%; margin-right:10%; ">The number of inmates who died in a county jail in a year between 2008-2019 and the number of inmates in the county jail on an average (ADP) :</h6>
+<p style="margin-left:9%; margin-right:10%; font-size:13px;"> Upon selecting a year on the multiline chart, we can see the jail deaths for that particular year color encoded on the map.  Among all the years, we find that 2017 had most of number of jail deaths. The total number of deaths amounted to 731 for that year.  In contrast to 2017, the year 2008 saw the least number of deaths amounting to 468.  Overall, when we observe the map displaying the total deaths, we find that the jail deaths are mostly concentrated towards the west coast, specifically in states like California and Arizona.<br></p>
 
-<br> Age and race information of the dead inmates :<br>
-From the age pie chart, excluding the N/A category, inmates who belonged to age group 31-60 had the greatest percentage of deaths every year. This was followed by inmates belonging to 0-30 age group and then the inmates belonging to the 61-100 age group.  
-From the race/ethnicity pie chart, inmates of White origin faced most jail deaths contributing to 48.74% from the total deaths, followed by inmates of Black origin with 28.17% and Hispanic origin with 11.62%. The 2.59% of total deaths are inmates from other origins which also includes Asian, American Indian, Pacific Islander. 8.88% of the total deaths are inmates from unknown origin.<br>
+  <h6 style="margin-left:9%; margin-right:10%; "> Age and race information of the dead inmates :</h6>
+<p style="margin-left:9%; margin-right:10%; font-size:13px;">From the age pie chart, excluding the N/A category, inmates who belonged to age group 31-60 had the greatest percentage of deaths every year. This was followed by inmates belonging to 0-30 age group and then the inmates belonging to the 61-100 age group.
+From the race/ethnicity pie chart, inmates of White origin faced most jail deaths contributing to 48.74% from the total deaths, followed by inmates of Black origin with 28.17% and Hispanic origin with 11.62%. The 2.59% of total deaths are inmates from other origins which also includes Asian, American Indian, Pacific Islander. 8.88% of the total deaths are inmates from unknown origin.<br> </p>
 
-<br> Location and more details about top 10 county jails with high inmate mortality rates :<br>
-From the horizontal bar graph in the bottom right, we can infer that Los Angeles county in California has had the greatest number of deaths every year with an average daily inmate population of 17,572. The total number of deaths in LA county amounted to 317.  The top 10 counties with the greatest number of jails deaths are – Los Angeles, Philadelphia, Harris, Cook, Miami-Diade, Maricopa, Broward, San Bernardino, Oklahoma, and Alameda. <br>
- 
-<br>Trend of inmate mortality in America’s jails over years :<br>
-The number of deaths recorded in 2008 were 468. There has been a steady increase in deaths over the years reaching a peak in 2017 by making a record of 731 deaths and then a slight dip in deaths by 2019. This shows that, there were some serious measures taken to reduce the number of deaths after 2017. <br>
+<h6 style="margin-left:9%; margin-right:10%; "> Location and more details about top 10 county jails with high inmate mortality rates :</h6>
+<p>From the horizontal bar graph in the bottom right, we can infer that Los Angeles county in California has had the greatest number of deaths every year with an average daily inmate population of 17,572. The total number of deaths in LA county amounted to 317.  The top 10 counties with the greatest number of jails deaths are – Los Angeles, Philadelphia, Harris, Cook, Miami-Diade, Maricopa, Broward, San Bernardino, Oklahoma, and Alameda. <br></p>
 
-<br>Causes of deaths of inmates :<br>
-Amongst all the causes of deaths provided, natural illness were the greatest causes of jail deaths in all the years followed by suicide, drug and alcohol related, other causes and lastly homicides.
-Deaths caused by drug and alcohol have gradually been increasing over the years and were the major cause of death in 2017.  We can also observe a steady increase in deaths caused due to suicides but there has been a slight decrease after 2016.  Deaths caused due to homicides had maximum number of deaths in 2015. The year 2018 had most number deaths caused by other reasons which includes causes like accidents. <br>
+<h6 style="margin-left:9%; margin-right:10%; "> Trend of inmate mortality in America’s jails over years :</h6>
+<p>The number of deaths recorded in 2008 were 468. There has been a steady increase in deaths over the years reaching a peak in 2017 by making a record of 731 deaths and then a slight dip in deaths by 2019. This shows that, there were some serious measures taken to reduce the number of deaths after 2017. <br></p>
 
-<br>Deaths by custody status, i.e if he is convicted or unconvicted at the time of death based on Gender :<br>
-Overall, for years between 2008-2019, it can be observed that there is majority of inmates who are male remain un-convicted at the time of death. <br>
+<h6 style="margin-left:9%; margin-right:10%; ">Causes of deaths of inmates :</h6>
+<p>Amongst all the causes of deaths provided, natural illness were the greatest causes of jail deaths in all the years followed by suicide, drug and alcohol related, other causes and lastly homicides.
+Deaths caused by drug and alcohol have gradually been increasing over the years and were the major cause of death in 2017.  We can also observe a steady increase in deaths caused due to suicides but there has been a slight decrease after 2016.  Deaths caused due to homicides had maximum number of deaths in 2015. The year 2018 had most number deaths caused by other reasons which includes causes like accidents. <br></p>
+
+<h6 style="margin-left:9%; margin-right:10%; "> Deaths by custody status, i.e if he is convicted or unconvicted at the time of death based on Gender :</h6>
+<p>Deaths by custody status, i.e if he is convicted or unconvicted at the time of death based on Gender :</h6>
+Overall, for years between 2008-2019, it can be observed that there is majority of inmates who are male remain un-convicted at the time of death. <br> <br>
+
+  </p>
+</div>
 
 
-	
-
-    </p>
-    <h4>Reflections</h4>
-        <p style="margin-left:9%; margin-right:10%;">
+<div class="w3-card-4" style="width:100%;  justify-content:center;  background-color:floralwhite;">
+    <header class="w3-container" style="background-color:blanchedalmond;">
+    <h4>Reflections</h4> </header>
+        <p>
     <br>Learning outcomes :<br>
     Upon pursuing this project, we learnt how to design and develop a visualization for a given data based on questions we would like the visualization to answer. Designing and developing a visualization takes time and is an interative process. Working on real time data or survey data requires time in understanding, pre-processing and aggregating data based on what we would like to visualize. <br>
     <br>Limitations and challenges :<br>
@@ -354,18 +447,24 @@ Overall, for years between 2008-2019, it can be observed that there is majority 
     <br>Future scope and improvements :<br>
     1) We would consider showing deaths for each state as another view on the map linked to the timeline graph.<br>
     2) Include a filter to show the names of jail centers associated with each county.<br>
+    <br> </p>
+</div>
 
 
-    <h4>References</h4>
+<div class="w3-card-4" style="width:100%;  justify-content:center;  background-color:floralwhite;">
+    <header class="w3-container" style="background-color:blanchedalmond;">
+    <h4>References</h4> </header>
         <p style="margin-left:9%; margin-right:10%;">
     <br>1) (n.d.) W3-Schools (2020),  retrieved from https://www.w3schools.com/css/css_grid_container.asp<br>
     <br>2) D3. (n.d.). D3/d3-zoom. Retrieved December 02, 2020, from https://github.com/d3/d3-zoom<br>
     <br>3) Bostock, M. (n.d.). Data-Driven Documents. Retrieved from https://d3js.org<br>
     <br>4) Simple Pie Chart example with D3.js. (n.d.).from http://bl.ocks.org/enjalot/1203641<br>
-
-	
+    <br>5) US County map http://bl.ocks.org/jadiehm/af4a00140c213dfbc4e6<br>
+    <br>
 	</p>
+
+</div>
 </body>
 
-	
-</html>   
+
+</html>
